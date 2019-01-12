@@ -51,7 +51,7 @@ class Main extends pluginBase implements Listener
     	$this->getLogger()->info("=========================");
  		$this->getLogger()->info("RunForMoneyを読み込みました");
  		$this->getLogger()->info("制作者: PawarenessC");
- 		$this->getLogger()->info("v0.1");
+ 		$this->getLogger()->info("v0.5");
  		$this->getLogger()->info("=========================");
  		
     	
@@ -95,6 +95,8 @@ class Main extends pluginBase implements Listener
 			"ゲーム時間(秒)" => 420,
 			
 			"Plugin" => "EconomyAPI",
+				
+			"確保" => 100,
 			
 			]);
 			
@@ -220,9 +222,11 @@ class Main extends pluginBase implements Listener
 			
 			if($this->type[$hunter] == 2 && $this->type[$runner] == 1 && $this->game == true)
 			{
+				$kakuho = $this->config->get("確保");
 				$player->sendMessage("§l§aMessage>>§r §b確保報酬として§6{$kakuho}§b円を手に入れた！");
-				
-	  			$entity->sendMessage("§l§aMessage>>§r §c{$hunter}§4に確保された...");
+				$this->addMoney($kakuho ,$hunter);
+	  			
+				$entity->sendMessage("§l§aMessage>>§r §c{$hunter}§4に確保された...");
 	  			$entity->sendMessage("§l§aMessage>>§r §bアスレチックをクリアして復活しよう。");
 	  			$entity->addTitle("§c捕まりました...", "");
 	  			$xyz = new Vector3($data["牢屋"]["x"], $data["牢屋"]["y"], $data["牢屋"]["z"], $data["ワールド"]);
