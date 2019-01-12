@@ -1,0 +1,14 @@
+name: RunForMoney
+main: pawarenessc\RFM\Main
+version: 100
+api: [4.0.0,3.0.0,3.5.0]
+author: PawarenessC
+load: POSTWORLD
+description: play tag.
+commands:
+ setupui:
+  description: "逃走中の制御コマンド"
+  usage: "/setupui"
+ tag:
+  description: "逃走中"
+  usage: "/tag"
