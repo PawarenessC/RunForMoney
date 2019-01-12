@@ -272,7 +272,7 @@ class Main extends pluginBase implements Listener
 		if($this->game == false)
 		{
 			$this->wt--;
-			$this->getServer()->broadcastPopup("§l{$this->wt}§r§a秒後に開始 §r§l{$this->all}§r§e人が参加");
+			$this->getServer()->broadcastPopup("§l{$this->wt}§r§a秒後に開始 §r§f§l{$this->all}§r§e人が参加");
 			if($this->wt == 0)
 			{
 				$this->getScheduler()->scheduleRepeatingTask(new CallbackTask([$this, "scheduler"]), 20);
