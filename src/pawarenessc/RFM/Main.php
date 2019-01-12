@@ -913,27 +913,31 @@ class Main extends pluginBase implements Listener
      					
      					if($this->type[$name] == 1)
      					{
-     						$player->sendMessage("§l§aMessage>>§r §c逃走中を抜けました");
+     						$this->type[$name] = 4;
+						$player->sendMessage("§l§aMessage>>§r §c逃走中を抜けました");
      						$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中を抜けました");
 	 						$this->t--;
 	 						$player->teleport($level->getSafeSpawn());
      					}
      					elseif($this->type[$name] == 2)
      					{
-     						$player->sendMessage("§l§aMessage>>§r §c逃走中を抜けました");
+     						$this->type[$name] = 4;
+						$player->sendMessage("§l§aMessage>>§r §c逃走中を抜けました");
      						$this->getServer()->broadcastMessage("§l§bINFO>>§r §c{$name}さんが逃走中を抜けました");
      						$this->h--;
 	  						$player->teleport($level->getSafeSpawn());
 	  					}
 	  					elseif($this->type[$name] == 3)
 	  					{
-     						$player->sendMessage("§l§aMessage>>§r §c逃走中を抜けました");
+     						$this->type[$name] = 4;
+						$player->sendMessage("§l§aMessage>>§r §c逃走中を抜けました");
      						$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中を抜けました");
      						$player->teleport($level->getSafeSpawn()); 
      					}
      					else
      					{
-     						$player->sendMessage("§l§aMessage>>§r §c参加していないようです");
+     						$this->type[$name] = 4;
+						$player->sendMessage("§l§aMessage>>§r §c参加していないようです");
      					}
      					break;
      				}
