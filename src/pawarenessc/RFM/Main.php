@@ -296,7 +296,7 @@ class Main extends pluginBase implements Listener
 		$win = $this->win;
 		$this->win = $win + $prize;
 		
-		$this->getServer()->broadcastPopup("TAG GAME§r:::::§c{$this->gametime}seconds left§a:::::§d".$win."§b§r\n     §l§aRUNNER ".$t." §cvs §bHUNTER ".$h."\n\n\n");
+		$this->getServer()->broadcastPopup("§f残り時間:§l§c{$this->gametime}§r§e秒 \n賞金§d".$win."§b§r\n     §l§a逃走者 ".$t." §cvs §bハンター ".$h."\n\n\n\n\n");
 		
 		switch($this->gametime)
 		{
