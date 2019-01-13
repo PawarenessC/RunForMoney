@@ -1,6 +1,6 @@
 name: RunForMoney
 main: pawarenessc\RFM\Main
-version: 0.9.7
+version: 1.0.0
 api: [4.0.0,3.0.0,3.5.0]
 author: PawarenessC
 load: POSTWORLD
@@ -9,6 +9,6 @@ commands:
  setupui:
   description: "逃走中の制御コマンド"
   usage: "/setupui"
- tag:
+ tagui:
   description: "逃走中"
-  usage: "/tag"
+  usage: "/tagui"
