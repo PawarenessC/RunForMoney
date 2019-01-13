@@ -307,7 +307,11 @@ class Main extends pluginBase implements Listener
 		
 		if($t == 0 or $t < 0)
 		{
-			
+			$this->getServer()->broadcastMessage("§l§bINFO>>§r §a逃走者が全滅しました！");
+			$this->getServer()->broadcastMessage("§l§bINFO>>§r §bハンターの勝利です！");
+			$this->getServer()->broadcastMessage("§l§bINFO>>§r §cハンターは§6{$win}§b円の賞金を手にいれた！");
+  			$this->endGame();
+		}
 		
 		switch($this->gametime)
 		{
