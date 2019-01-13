@@ -246,7 +246,7 @@ class Main extends pluginBase implements Listener
 	  			$entity->addTitle("§c捕まりました...", "");
 	  			$xyz = new Vector3($data["牢屋"]["x"], $data["牢屋"]["y"], $data["牢屋"]["z"], $data["ワールド"]);
 	  			$entity->teleport($xyz);
-	  			$this->kk->set($runner, $this->kk->get($runner)++);
+	  			$this->kk->set($runner, $this->kk->get($runner)+1);
 	  			$this->kk->save();
 	  			
 	  			$team = "jaller";
@@ -442,7 +442,7 @@ class Main extends pluginBase implements Listener
   				{
   					$this->getServer()->broadcastMessage("{$name}");
   					$this->addMoney($win, $name);
-  					$this->nige->set($name, $this->nige->get($name)++);
+  					$this->nige->set($name, $this->nige->get($name)+1);
   					$this->nige->save();
   				}
   			}
