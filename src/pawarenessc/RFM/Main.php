@@ -343,7 +343,7 @@ class Main extends pluginBase implements Listener
 				break;
 
 				case "tagui":
-				$this->startMenu($sender);
+				$this->tagMenu($sender);
 				return true;
 				break;
 			}
