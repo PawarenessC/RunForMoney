@@ -315,6 +315,7 @@ class Main extends pluginBase implements Listener
 		
 		$t = $this->t;
 		$h = $this->h;
+		$all = $this->t + $this->h;
 		$data = $this->xyz->getAll();
 		$players = Server::getInstance()->getOnlinePlayers();
 		$prize = $this->config->get("1秒ごとの単価");
@@ -323,8 +324,13 @@ class Main extends pluginBase implements Listener
 		$truegame = $gamemi - 1;
 		$win = $this->win;
 		$this->win = $win + $prize;
+		$min = $this->gametime;
 		
-		$this->getServer()->broadcastPopup("§f残り時間:§l§f{$this->gametime}§r§e秒 \n§r賞金  §d".$win."§b円§r\n     §l§a逃走者 ".$t." §cvs §bハンター ".$h."\n\n\n\n");
+		$init = $min;
+		$minutes = floor(($init / 60) % 60);
+		$seconds = $init % 60;
+		
+		$this->getServer()->broadcastPopup("§f残り時間:§l§f{$minutes}§r§b:§l{$seconds}§r§e \n§r賞金  §d".$win."§b円§r\n     §l§a逃走者 ".$t." §cvs §bハンター ".$h."\n\n\n\n");
 		
 		if($t == 0 or $t < 0)
 		{
@@ -337,10 +343,17 @@ class Main extends pluginBase implements Listener
 		switch($this->gametime)
 		{
 			case $truegame:
-			
-			$this->getServer()->broadcastMessage("§l§bINFO>>§r §b逃走中を開始しました！！ハンターは不思議なパーティクルを身に着けているよ！");
-			$this->getServer()->broadcastMessage("§l§bINFO>>§r §aハンターは10秒間動けません");
-  			$this->game = true;
+			if(1 >= $all)
+			{
+				$this->getServer()->broadcastMessage("§l§bINFO>>§r §c逃走中開始には2人以上必要です。");
+				$this->getServer()->broadcastMessage("§l§bINFO>>§r §cゲームを終了しました");
+  				$this->game = false;
+			}
+			else
+			{
+				$this->getServer()->broadcastMessage("§l§bINFO>>§r §b逃走中を開始しました！！ハンターは不思議なパーティクルを身に着けているよ！");
+				$this->getServer()->broadcastMessage("§l§bINFO>>§r §aハンターは10秒間動けません");
+  				$this->game = true;
   			
   			foreach ($players as $player)
   			{
