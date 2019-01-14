@@ -672,7 +672,7 @@ class Main extends pluginBase implements Listener
   			 			$this->getScheduler()->scheduleRepeatingTask(new CallbackTask([$this, "startscheduler"]), 20);
   			 			$this->game = false;
   			 			$this->cogame = true;
-       					$this->getServer()->broadcastMessage("§l§bINFO>>§r §b逃走中を開催します！ /tagで参加しましょう！");
+       					$this->getServer()->broadcastMessage("§l§bINFO>>§r §b逃走中を開催します！ /taguiで参加しましょう！");
        						
        				}
        				else
@@ -1062,7 +1062,7 @@ class Main extends pluginBase implements Listener
   	   								$this->getScheduler()->scheduleRepeatingTask(new CallbackTask([$this, "startscheduler"]), 20);
   									$this->game = false;
   									$this->cogame = true;
-									$this->getServer()->broadcastMessage("§l§bINFO>>§r §b逃走中を開催します！ /tagで参加しましょう！");
+									$this->getServer()->broadcastMessage("§l§bINFO>>§r §b逃走中を開催します！ /taguiで参加しましょう！");
 									
 									$team = "runner";
 									$this->team($player, $team);
