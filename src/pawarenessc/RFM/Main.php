@@ -52,7 +52,7 @@ class Main extends pluginBase implements Listener
     	$this->getLogger()->info("=========================");
  		$this->getLogger()->info("RunForMoneyを読み込みました");
  		$this->getLogger()->info("制作者: PawarenessC");
- 		$this->getLogger()->info("v2.1.1");
+ 		$this->getLogger()->info("v2.2.0");
  		$this->getLogger()->info("=========================");
  		
     	
@@ -489,9 +489,10 @@ class Main extends pluginBase implements Listener
 			if($this->type[$name] == 1 or $this->type[$name] == 2 or $this->type[$name] == 3)
 			{
    				$player->teleport($level->getSafeSpawn());
-   				$player->setGamemode(0);
+   				$player->removeEffect(1);
+				$player->setGamemode(0);
    				$player->setNameTag($player->getDisplayName());
-   				$this->type[$name] = 4;
+				$this->type[$name] = 4;
    			}
    			else
    			{
