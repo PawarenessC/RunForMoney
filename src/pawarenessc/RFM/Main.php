@@ -211,8 +211,9 @@ class Main extends pluginBase implements Listener
 			$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}§aが自首しました！");
 			$player->teleport($this->getServer()->getDefaultLevel()->getSafeSpawn());
 			$this->t--;
-			$team = "watch";
-			$this->team($player, $team);
+			//$team = "watch";
+			//$this->team($player, $team);
+			$this->type[$name] = 3;
 		}
 		
 		if($block == $kb)
@@ -250,8 +251,9 @@ class Main extends pluginBase implements Listener
 				$this->kk->set($hunter, $this->kk->get($hunter)+1);
 	  			$this->kk->save();
 	  			
-	  			$team = "jaller";
-				$this->team($player, $team);
+	  			//$team = "jaller"; なんか作動しない
+				//$this->team($player, $team);
+				$this->type[$name] = 3;
 	  			$this->t--;
 	  			$this->getServer()->broadcastMessage("§l§bINFO>>§r {$runner}§cが確保された...");
 	  			$this->getServer()->broadcastMessage("§l§bINFO>>§r §cハンター→ §f{$hunter}");
