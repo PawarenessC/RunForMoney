@@ -45,11 +45,12 @@ use metowa1227\MoneySystemAPI\MoneySystemAPI;
 
 class Main extends pluginBase implements Listener
 {
-    public function onEnable()
-    {
-    	$this->getServer()->getPluginManager()->registerEvents($this, $this);
-    	
-    	$this->getLogger()->info("=========================");
+    	public $type = NULL;
+	
+	public function onEnable()
+    	{
+    		$this->getServer()->getPluginManager()->registerEvents($this, $this);
+    		$this->getLogger()->info("=========================");
  		$this->getLogger()->info("RunForMoneyを読み込みました");
  		$this->getLogger()->info("制作者: PawarenessC");
  		$this->getLogger()->info("v2.2.1");
