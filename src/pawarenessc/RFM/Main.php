@@ -53,7 +53,7 @@ class Main extends pluginBase implements Listener
     		$this->getLogger()->info("=========================");
  		$this->getLogger()->info("RunForMoneyを読み込みました");
  		$this->getLogger()->info("制作者: PawarenessC");
- 		$this->getLogger()->info("v5.4.1");
+ 		$this->getLogger()->info("v5.4.2");
  		$this->getLogger()->info("=========================");
  		
     	
