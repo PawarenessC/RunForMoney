@@ -1,6 +1,6 @@
 name: RunForMoney
 main: pawarenessc\RFM\Main
-version: 5.4.0
+version: 5.4.1
 api: [4.0.0,3.0.0,3.5.0]
 author: PawarenessC
 load: POSTWORLD
