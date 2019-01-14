@@ -53,7 +53,7 @@ class Main extends pluginBase implements Listener
     		$this->getLogger()->info("=========================");
  		$this->getLogger()->info("RunForMoneyを読み込みました");
  		$this->getLogger()->info("制作者: PawarenessC");
- 		$this->getLogger()->info("v2.2.2");
+ 		$this->getLogger()->info("v2.3.0");
  		$this->getLogger()->info("=========================");
  		
     	
@@ -348,6 +348,8 @@ class Main extends pluginBase implements Listener
 				$this->getServer()->broadcastMessage("§l§bINFO>>§r §c逃走中開始には2人以上必要です。");
 				$this->getServer()->broadcastMessage("§l§bINFO>>§r §cゲームを終了しました");
   				$this->game = false;
+				$this->endGame();
+				break;
 			}
 			else
 			{
@@ -376,7 +378,7 @@ class Main extends pluginBase implements Listener
 					$player->addEffect(new EffectInstance(Effect::getEffect(1), 114514, 1, false));
 					$player->sendMessage("§l§aMessage>> §r§cハンターになりました!");
 					
-					
+					}	
 				}
 			}
 			break;
