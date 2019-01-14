@@ -343,28 +343,7 @@ class Main extends pluginBase implements Listener
 				break;
 
 				case "tagui":
-				if($sender->isOp())
-				{
-					$this->tagMenu($sender);
-				}
-				elseif($this->guest == true)
-				{
-					if($check == "true")
-					{
-						if($this->game == false)
-						{
-							$this->tagMenu($sender);
-						}
-						else
-						{
-							$sender->sendMessage("§cゲーム中は設定によりフォームを開けません");
-						}
-					}
-				}
-				else
-				{
-					$sender->sendMessage("§c設定により参加できません");
-				}
+				$this->startMenu($sender);
 				return true;
 				break;
 			}
