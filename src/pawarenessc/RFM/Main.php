@@ -1186,6 +1186,7 @@ class Main extends pluginBase implements Listener
 					case 0: //エメラルドブロックミッション
 					$if = $misse["発動"];
 					$time = $misse["時間"];
+					$money = $misse["報酬"];
 					$buttons[] = [ 
         			'text' => "§l発動設定の変更", 
         			'image' => [ 'type' => 'path', 'data' => "" ] 
@@ -1198,13 +1199,14 @@ class Main extends pluginBase implements Listener
         			'text' => "§l報酬の変更", 
         			'image' => [ 'type' => 'path', 'data' => "" ] 
         			]; //2
-        			$this->sendForm($player,"エメラルドミッションの設定","エメラルドブロックミッションの設定\ntrue = 発動\nfalse = 不発動\n\n§a発動条件:§f{$if}\n発動時間:{$time}秒",$buttons,947290);
+        			$this->sendForm($player,"エメラルドミッションの設定","エメラルドブロックミッションの設定\ntrue = 発動\nfalse = 不発動\n\n§a発動条件:§f{$if}\n§a発動時間:{$time}秒\n§a報酬:{$money}",$buttons,947290);
         			$this->info[$name] = "form";
 					break;
 					
 					case 1: //パックマンミッション
 					$if = $missp["発動"];
 					$time = $missp["時間"];
+					$money = $missp["報酬"];
 					$buttons[] = [ 
         			'text' => "§l発動設定の変更", 
         			'image' => [ 'type' => 'path', 'data' => "" ] 
@@ -1217,7 +1219,7 @@ class Main extends pluginBase implements Listener
         			'text' => "§l報酬の変更", 
         			'image' => [ 'type' => 'path', 'data' => "" ] 
         			]; //2
-        			$this->sendForm($player,"パックマンミッションの設定","パックマンミッションの設定\ntrue = 発動\nfalse = 不発動\n\n§a発動条件:§f{$if}\n発動時間:{$time}秒",$buttons,70991);
+        			$this->sendForm($player,"パックマンミッションの設定","パックマンミッションの設定\ntrue = 発動\nfalse = 不発動\n\n§a発動条件:§f{$if}\n§a発動時間:{$time}秒\n§a報酬:{$money}",$buttons,70991);
         			$this->info[$name] = "form";
 					break;
 				}
