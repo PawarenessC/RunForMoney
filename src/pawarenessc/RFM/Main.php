@@ -52,7 +52,7 @@ class Main extends pluginBase implements Listener
     	$this->getLogger()->info("=========================");
  		$this->getLogger()->info("RunForMoneyを読み込みました");
  		$this->getLogger()->info("制作者: PawarenessC");
- 		$this->getLogger()->info("v2.2.0");
+ 		$this->getLogger()->info("v2.2.1");
  		$this->getLogger()->info("=========================");
  		
     	
@@ -253,7 +253,7 @@ class Main extends pluginBase implements Listener
 	  			
 	  			//$team = "jaller"; なんか作動しない
 				//$this->team($player, $team);
-				$this->type[$name] = 3;
+				$this->type[$runner] = 3;
 	  			$this->t--;
 	  			$this->getServer()->broadcastMessage("§l§bINFO>>§r {$runner}§cが確保された...");
 	  			$this->getServer()->broadcastMessage("§l§bINFO>>§r §cハンター→ §f{$hunter}");
