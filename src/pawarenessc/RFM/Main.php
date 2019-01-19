@@ -53,7 +53,7 @@ class Main extends pluginBase implements Listener
     		$this->getLogger()->info("=========================");
  			$this->getLogger()->info("RunForMoneyを読み込みました");
  			$this->getLogger()->info("制作者: PawarenessC");
- 			$this->getLogger()->info("v7.4.0");
+ 			$this->getLogger()->info("v7.6.4");
  			$this->getLogger()->info("=========================");
  		
     	
@@ -578,7 +578,7 @@ class Main extends pluginBase implements Listener
 		$limita = $miss["ハンター増加"]["制限時間"];
 		
 		$pacmend = $pacm - 30;
-		$addhend = $adhm - $limit;
+		$addhend = $adhm - $limita;
 		
 		$this->getServer()->broadcastPopup("§f残り時間:§l§f{$minutes}§r§b:§r§f§l{$seconds}§r§e \n§r賞金  §d".$win."§b円§r\n     §l§a逃走者 ".$t." §cvs §bハンター ".$h."\n\n\n\n");
 		
@@ -1613,7 +1613,6 @@ class Main extends pluginBase implements Listener
 					case 2: //ハンター増加
 					$if = $missh["発動"];
 					$time = $missh["時間"];
-					$money = $missh["報酬"];
 					$limit = $missh["制限時間"];
 					
 					$buttons[] = [ 
@@ -1628,7 +1627,7 @@ class Main extends pluginBase implements Listener
         			"text" => "§l制限時間の変更",
         			'image' => [ 'type' => 'path', 'data' => "" ] 
         			]; //2
-        			$this->sendForm($player,"ハンター増加ミッションの設定","ハンター増加の現在の設定\ntrue = 発動\nfalse = 不発動\n\n発動条件:§f{$if}\n発動時間:{$time}秒\n報酬:{$money}\n制限時間{$limit}",$buttons,70882);
+        			$this->sendForm($player,"ハンター増加ミッションの設定","ハンター増加の現在の設定\ntrue = 発動\nfalse = 不発動\n\n発動条件:§f{$if}\n発動時間:{$time}秒\n制限時間{$limit}秒",$buttons,70882);
         			$this->info[$name] = "form";
 					break;
 				}
@@ -1759,7 +1758,6 @@ class Main extends pluginBase implements Listener
 				case 70882: //ハンター増加
 				$if = $missh["発動"];
 				$time = $missh["時間"];
-				$money = $missh["報酬"];
 				$limit = $missh["制限時間"];
 				
 				switch($data)
