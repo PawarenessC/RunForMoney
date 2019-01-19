@@ -51,13 +51,13 @@ class Main extends pluginBase implements Listener
     	{
     		$this->getServer()->getPluginManager()->registerEvents($this, $this);
     		$this->getLogger()->info("=========================");
- 		$this->getLogger()->info("RunForMoneyを読み込みました");
- 		$this->getLogger()->info("制作者: PawarenessC");
- 		$this->getLogger()->info("v6.0.0");
- 		$this->getLogger()->info("=========================");
+ 			$this->getLogger()->info("RunForMoneyを読み込みました");
+ 			$this->getLogger()->info("制作者: PawarenessC");
+ 			$this->getLogger()->info("v7.4.0");
+ 			$this->getLogger()->info("=========================");
  		
     	
-    	/*$this->xyz = new Config(
+    	$this->xyz = new Config(
         $this->getDataFolder() . "xyz.yml", Config::YAML, array(
         "マップ1"=> array(
         "逃走者"=> array(
@@ -85,52 +85,29 @@ class Main extends pluginBase implements Listener
         
         "マップ2"=> array(
         "逃走者"=> array(
-          "x"=>326,
+          "x"=>11,
           "y"=>4,
-          "z"=>270,
+          "z"=>514,
         ),
         "牢屋"=> array(
-          "x"=>305,
-          "y"=>5,
-          "z"=>331,
+          "x"=>191,
+          "y"=>9,
+          "z"=>810,
         ),
         "観戦"=> array(
-          "x"=>255,
-          "y"=>4,
-          "z"=>255,
+          "x"=>11,
+          "y"=>11,
+          "z"=>11,
         ),
         "ハンター"=> array(
-          "x"=>246,
-          "y"=>4,
-          "z"=>357,
+          "x"=>666,
+          "y"=>1818,
+          "z"=>810,
         ),
-        "ワールド"=> "world"
-        )));*/
+        "ワールド"=> "seki",
+        "準備(ok or no)"=>"no"
+        )));
         
-        $this->xyz = new Config(
-        $this->getDataFolder() . "xyz.yml", Config::YAML, array(
-        "逃走者"=> array(
-          "x"=>326,
-          "y"=>4,
-          "z"=>270,
-        ),
-        "牢屋"=> array(
-          "x"=>305,
-          "y"=>5,
-          "z"=>331,
-        ),
-        "観戦"=> array(
-          "x"=>255,
-          "y"=>4,
-          "z"=>255,
-        ),
-        "ハンター"=> array(
-          "x"=>246,
-          "y"=>4,
-          "z"=>357,
-        ),
-        "ワールド"=> "world"
-        ));
         
         $this->config = new Config($this->getDataFolder()."Setup.yml", Config::YAML,
 			[
@@ -166,10 +143,10 @@ class Main extends pluginBase implements Listener
           "時間"=>100,
           "報酬"=>100,
         ),
-        "???"=> array(
+        "ハンター増加"=> array(
           "発動"=>"false",
           "時間"=>100,
-          "報酬"=>100,
+          "制限時間"=>30,
         ),
         "????"=> array(
           "発動"=>"false",
@@ -196,8 +173,14 @@ class Main extends pluginBase implements Listener
     	$this->cogame = false;
     	$this->guest = true;
     	
+    	/*ミッション*/
     	$this->pac = false;
     	$this->eme = false;
+    	$this->addh = false;
+    	/*ミッション*/
+    	
+    	
+    	$this->map = 1;
     	
     	$this->gametime = $this->config->get("ゲーム時間(秒)");
  		$this->wt = $this->config->get("始まるまでの時間(秒)");
@@ -299,15 +282,20 @@ class Main extends pluginBase implements Listener
 		$jb = $this->config->get("自首ブロック");
 		$kb = $this->config->get("観戦ブロック");
 		
-		$data = $this->xyz->getAll();
+		$data  = $this->xyz->getAll()["マップ1"];
+		$data2 = $this->xyz->getAll()["マップ2"];
 		
-		If($block == 133 && $this->game == true && $this->type[$name] == 1 && $this->eme = true)
+		$map = $this->map;
+		
+		If($block == 133 && $this->game == true && $this->type[$name] == 1 && $this->eme == true)
 		{
-			$money = $this->config->getAll()["エメラルドブロックタップ"]["報酬"];
+			$money = $this->mis->getAll()["エメラルドブロックタップ"]["報酬"];
 			
 			$player->sendMessage("§l§aMessage>>§r §eミッションクリア！");
 			$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}§aがエメラルドブロックミッションをクリアしました！");
 			$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}§fは{$money}円の報酬を手に入れた！");
+			
+			$this->addMoney($money ,$name);
 			$this->eme = false;
 		}
 		
@@ -318,9 +306,18 @@ class Main extends pluginBase implements Listener
 			$team = "runner";
 			$this->team($player, $team);
 			
-			$xyz = new Vector3($data["逃走者"]["x"], $data["逃走者"]["y"], $data["逃走者"]["z"], $data["ワールド"]);
-           	$player->teleport($xyz);
-			$this->t++;
+			if($map == 1)
+			{
+				$xyz = new Vector3($data["逃走者"]["x"], $data["逃走者"]["y"], $data["逃走者"]["z"], $data["ワールド"]);
+           		$player->teleport($xyz);
+				$this->t++;
+			}
+			else
+			{
+				$xyz = new Vector3($data2["逃走者"]["x"], $data2["逃走者"]["y"], $data2["逃走者"]["z"], $data2["ワールド"]);
+           		$player->teleport($xyz);
+				$this->t++;
+			}
 		}
 		
 		if($block == $jb && $this->game == true && $this->type[$name] == 1)
@@ -332,19 +329,33 @@ class Main extends pluginBase implements Listener
 			//$team = "watch";
 			//$this->team($player, $team);
 			$this->type[$name] = 3;
+			
+			$this->addMoney($this->win ,$name);
 		}
 		
 		if($block == $kb)
 		{
-			$player->sendMessage("§l§aMessage>>§r§b観戦場所へ移動します...");
-			$xyz = new Vector3($data["観戦"]["x"], $data["観戦"]["y"], $data["観戦"]["z"], $data["ワールド"]);
-            $player->teleport($xyz);
+			if($map == 1)
+			{
+				$player->sendMessage("§l§aMessage>>§r§b観戦場所へ移動します...");
+				$xyz = new Vector3($data["観戦"]["x"], $data["観戦"]["y"], $data["観戦"]["z"], $data["ワールド"]);
+            	$player->teleport($xyz);
+            }
+            else
+            {
+            	$player->sendMessage("§l§aMessage>>§r§b観戦場所へ移動します...");
+				$xyz = new Vector3($data2["観戦"]["x"], $data2["観戦"]["y"], $data2["観戦"]["z"], $data2["ワールド"]);
+            	$player->teleport($xyz);
+            }
 		}
 	}
 	
 	public function EntityDamageEvent(EntityDamageEvent $event)
 	{
-		$data = $this->xyz->getAll();
+		$data  = $this->xyz->getAll()["マップ1"];
+		$data2 = $this->xyz->getAll()["マップ2"];
+		
+		$map = $this->map;
 		
 		if($event instanceof EntityDamageByEntityEvent)
 		{
@@ -356,41 +367,99 @@ class Main extends pluginBase implements Listener
 			
 			if($this->type[$hunter] == 2 && $this->type[$runner] == 1 && $this->game == true)
 			{
-				$kakuho = $this->config->get("確保");
-				$player->sendMessage("§l§aMessage>>§r §b確保報酬として§6{$kakuho}§b円を手に入れた！");
-				$this->addMoney($kakuho ,$hunter);
+				if($this->addh !== true)
+				{
+					$kakuho = $this->config->get("確保");
+					$player->sendMessage("§l§aMessage>>§r §b確保報酬として§6{$kakuho}§b円を手に入れた！");
+					$this->addMoney($kakuho ,$hunter);
+	  				
+					$entity->sendMessage("§l§aMessage>>§r §c{$hunter}§4に確保された...");
+	  				$entity->sendMessage("§l§aMessage>>§r §bアスレチックをクリアして復活しよう。");
+	  				$entity->addTitle("§c捕まりました...", "");
+	  				
+	  				if($map == 1)
+	  				{
+	  					$xyz = new Vector3($data["牢屋"]["x"], $data["牢屋"]["y"], $data["牢屋"]["z"], $data["ワールド"]);
+	  					$entity->teleport($xyz);
+	  				}
+	  				else
+	  				{
+	  					$xyz = new Vector3($data2["牢屋"]["x"], $data2["牢屋"]["y"], $data2["牢屋"]["z"], $data2["ワールド"]);
+	  					$entity->teleport($xyz);
+	  				}
+	  				
+					$this->kk->set($hunter, $this->kk->get($hunter)+1);
+	  				$this->kk->save();
+	  				
+	  				$this->kkb->set($runner, $this->kkb->get($runner)+1);
+	  				$this->kkb->save();
+	  				
+	  				//$team = "jaller"; なんか作動しない
+					//$this->team($player, $team);
+					$this->type[$runner] = 3;
+	  				$this->t--;
+	  				$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$runner}§cが確保された...");
+	  				$this->getServer()->broadcastMessage("§l§bINFO>>§r §cハンター→ §f{$hunter}");
+	  			}
 	  			
-				$entity->sendMessage("§l§aMessage>>§r §c{$hunter}§4に確保された...");
-	  			$entity->sendMessage("§l§aMessage>>§r §bアスレチックをクリアして復活しよう。");
-	  			$entity->addTitle("§c捕まりました...", "");
-	  			$xyz = new Vector3($data["牢屋"]["x"], $data["牢屋"]["y"], $data["牢屋"]["z"], $data["ワールド"]);
-	  			$entity->teleport($xyz);
+	  			else //ハンター増加ミッション
 	  			
-				$this->kk->set($hunter, $this->kk->get($hunter)+1);
-	  			$this->kk->save();
-	  			
-	  			$this->kkb->set($runner, $this->kkb->get($runner)+1);
-	  			$this->kkb->save();
-	  			
-	  			//$team = "jaller"; なんか作動しない
-				//$this->team($player, $team);
-				$this->type[$runner] = 3;
-	  			$this->t--;
-	  			$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$runner}§cが確保された...");
-	  			$this->getServer()->broadcastMessage("§l§bINFO>>§r §cハンター→ §f{$hunter}");
+	  			{
+	  				$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$runner}§cが確保された...");
+	  				$this->getServer()->broadcastMessage("§l§bINFO>>§r §cハンター→ §f{$hunter}");
+	  				$this->type[$runner] = 3;
+	  				$this->t--;
+	  				
+	  				$this->getServer()->broadcastMessage("§l§bINFO>>§r §4ミッション失敗...");
+	  				$this->getServer()->broadcastMessage("§l§bINFO>>§r §4牢屋にいる者が全員ハンターになってしまった！");
+	  				
+	  				$this->addh = false;
+	  				
+	  				$players = Server::getInstance()->getOnlinePlayers();
+	  				foreach ($players as $online)
+	  				{
+	  					$name1 = $online->getName();
+	  					
+	  					if($this->type[$name1] == 3)
+	  					{
+	  						$online->sendMessage("§l§aMessage>>§r §cハンターになったぞ！");
+	  						$this->type[$name1] = 2;
+	  						$this->h++;
+	  						if($map == 1)
+	  						{
+	  							$xyz = new Vector3($data["ハンター"]["x"], $data["ハンター"]["y"], $data["ハンター"]["z"], $data["ワールド"]);
+	  							$online->teleport($xyz);
+	  						}
+	  						else
+	  						{
+	  							$xyz = new Vector3($data2["ハンター"]["x"], $data2["ハンター"]["y"], $data2["ハンター"]["z"], $data2["ハンター"]);
+	  							$online->teleport($xyz);
+	  						}
+	  					}
+	  				}
+	  			}
 	  		}
 	  		
 	  		if($this->type[$hunter] == 1 && $this->type[$runner] == 2 && $this->game == true && $this->pac == true) //パックマンミッション
 	  		{
-	  			$kakuho = $this->config->getAll()["パックマンミッション"]["報酬"];
+	  			$kakuho = $this->mis->getAll()["パックマンミッション"]["報酬"];
 				$player->sendMessage("§l§aMessage>>§r §b確保報酬として§6{$kakuho}§b円を手に入れた！");
 				$player->sendMessage("§l§aMessage>>§r §6よくやった！");
 				$this->addMoney($kakuho ,$hunter);
 	  			
 				$entity->sendMessage("§l§aMessage>>§r §c{$hunter}に§6パックマンミッション§4で確保された...");
 	  			$entity->addTitle("§c捕まりました...", "");
-	  			$xyz = new Vector3($data["牢屋"]["x"], $data["牢屋"]["y"], $data["牢屋"]["z"], $data["ワールド"]);
-	  			$entity->teleport($xyz);
+	  			
+	  			if($map == 1)
+	  			{
+	  				$xyz = new Vector3($data["牢屋"]["x"], $data["牢屋"]["y"], $data["牢屋"]["z"], $data["ワールド"]);
+	  				$entity->teleport($xyz);
+	  			}
+	  			else
+	  			{
+	  				$xyz = new Vector3($data2["牢屋"]["x"], $data2["牢屋"]["y"], $data2["牢屋"]["z"], $data2["ワールド"]);
+	  				$entity->teleport($xyz);
+	  			}
 	  			
 				$this->kk->set($hunter, $this->kk->get($hunter)+1);
 	  			$this->kk->save();
@@ -427,9 +496,18 @@ class Main extends pluginBase implements Listener
 				break;
 
 				case "tagui":
-				$this->tagMenu($sender);
-				return true;
-				break;
+				if($this->guest == true)
+				{
+					$this->tagMenu($sender);
+					return true;
+					break;
+				}
+				else
+				{
+					$sender->sendMessage("§l§aMessage>>§r §c設定により参加できません");
+					return true;
+					break;
+				}
 			}
 	}
 	
@@ -438,12 +516,28 @@ class Main extends pluginBase implements Listener
 		if($this->game == false)
 		{
 			$this->wt--;
+			$data = $this->xyz->getAll();
 			$all = $this->t + $this->h;
 			$this->getServer()->broadcastPopup("§l{$this->wt}§r§a秒後に開始 §r§f§l{$all}§r§e人が参加");
-			if($this->wt == 0)
+			
+			if($this->wt == 10)
 			{
-				$this->getScheduler()->scheduleRepeatingTask(new CallbackTask([$this, "scheduler"]), 20);
-				$this->game = true;
+				if($data["マップ2"]["準備(ok or no)"] == "ok")
+				{
+					$this->map = mt_rand(1,2);
+					$this->getServer()->broadcastMessage("§l§bINFO>>§r §a今回はマップ§c§l{$this->map}§r§a!");
+				}
+				else
+				{
+					$this->map = 1;
+					$this->getServer()->broadcastMessage("§l§bINFO>>§r §a今回はマップ§c§l1§r§a!");
+				}
+			}
+			
+			if($this->wt == 1)
+			{
+					$this->getScheduler()->scheduleRepeatingTask(new CallbackTask([$this, "scheduler"]), 20);
+					$this->game = true;
 			}
 		}
 	}
@@ -467,17 +561,24 @@ class Main extends pluginBase implements Listener
 		$this->win = $win + $prize;
 		$min = $this->gametime;
 		
+		$map = $this->map;
+		
 		$init = $min;
 		$minutes = floor(($init / 60) % 60);
 		$seconds = $init % 60;
 		
 		$pacm = $miss["パックマンミッション"]["時間"];
 		$emem = $miss["エメラルドブロックタップ"]["時間"];
+		$adhm = $miss["ハンター増加"]["時間"];
 		
 		$ifp = $miss["パックマンミッション"]["発動"];
 		$ife = $miss["エメラルドブロックタップ"]["発動"];
+		$ifa = $miss["ハンター増加"]["発動"];
+		
+		$limita = $miss["ハンター増加"]["制限時間"];
 		
 		$pacmend = $pacm - 30;
+		$addhend = $adhm - $limit;
 		
 		$this->getServer()->broadcastPopup("§f残り時間:§l§f{$minutes}§r§b:§r§f§l{$seconds}§r§e \n§r賞金  §d".$win."§b円§r\n     §l§a逃走者 ".$t." §cvs §bハンター ".$h."\n\n\n\n");
 		
@@ -486,6 +587,14 @@ class Main extends pluginBase implements Listener
 			$this->getServer()->broadcastMessage("§l§bINFO>>§r §a逃走者が全滅しました！");
 			$this->getServer()->broadcastMessage("§l§bINFO>>§r §bハンターの勝利です！");
 			$this->getServer()->broadcastMessage("§l§bINFO>>§r §cハンターは§6{$win}§b円の賞金を手にいれた！");
+  			$this->endGame();
+		}
+		
+		if($h == 0 or $h < 0)
+		{
+			$this->getServer()->broadcastMessage("§l§bINFO>>§r §cハンターが全滅しました！");
+			$this->getServer()->broadcastMessage("§l§bINFO>>§r §b逃走者の勝利です！");
+			$this->getServer()->broadcastMessage("§l§bINFO>>§r §b逃走者が§6{$win}§b円の賞金を手にいれた！");
   			$this->endGame();
 		}
 		
@@ -513,23 +622,41 @@ class Main extends pluginBase implements Listener
 				
 				if($this->type[$name] == 1)
 				{
-					$xyz = new Vector3($data["逃走者"]["x"], $data["逃走者"]["y"], $data["逃走者"]["z"], $data["ワールド"]);
-					$player->teleport($xyz);
-					$player->sendMessage("§l§aMessage>> §r§b逃走者になりました!");
-				
+					if($map == 1)
+					{
+					
+						$xyz = new Vector3($data["マップ1"]["逃走者"]["x"], $data["マップ1"]["逃走者"]["y"], $data["マップ1"]["逃走者"]["z"], $data["マップ1"]["ワールド"]);
+						$player->teleport($xyz);
+						$player->sendMessage("§l§aMessage>> §r§b逃走者になりました!");
+					}
+					else
+					{
+						$xyz = new Vector3($data["マップ2"]["逃走者"]["x"], $data["マップ2"]["逃走者"]["y"], $data["マップ2"]["逃走者"]["z"], $data["マップ2"]["ワールド"]);
+						$player->teleport($xyz);
+						$player->sendMessage("§l§aMessage>> §r§b逃走者になりました!");
+					}
 				}
 
      			if ($this->type[$name] == 2)
      			{
-      				$xyz = new Vector3($data["ハンター"]["x"], $data["ハンター"]["y"], $data["ハンター"]["z"], $data["ワールド"]);
-      				$player->teleport($xyz);
-					$player->setImmobile(true);
-					$player->addEffect(new EffectInstance(Effect::getEffect(1), 114514, 1, false));
-					$player->addEffect(new EffectInstance(Effect::getEffect(15), 114514, 1, false));
-					$player->sendMessage("§l§aMessage>> §r§cハンターになりました!");
-					
-					}	
+      				if($map == 1)
+      				{
+      					$xyz = new Vector3($data["マップ1"]["ハンター"]["x"], $data["マップ1"]["ハンター"]["y"], $data["マップ1"]["ハンター"]["z"], $data["マップ1"]["ワールド"]);
+      					$player->teleport($xyz);
+						$player->setImmobile(true);
+						$player->addEffect(new EffectInstance(Effect::getEffect(1), 114514, 1, false));
+						$player->sendMessage("§l§aMessage>> §r§cハンターになりました!");
+					}
+					else
+					{
+						$xyz = new Vector3($data["マップ2"]["ハンター"]["x"], $data["マップ2"]["ハンター"]["y"], $data["マップ2"]["ハンター"]["z"], $data["マップ2"]["ワールド"]);
+      					$player->teleport($xyz);
+						$player->setImmobile(true);
+						$player->addEffect(new EffectInstance(Effect::getEffect(1), 114514, 1, false));
+						$player->sendMessage("§l§aMessage>> §r§cハンターになりました!");
+					}
 				}
+			}
 			}
 			break;
 			
@@ -565,12 +692,31 @@ class Main extends pluginBase implements Listener
   			}
   			break;
   			
+  			case $adhm:
+  			if($ifa == "true")
+  			{
+  				$this->getServer()->broadcastMessage("§l§bINFO>>§r §cミッション発生！");
+				$this->getServer()->broadcastMessage("=-=-=-=-§cハンター増加ミッション！§r-=-=-=-=");
+				$this->getServer()->broadcastMessage("§eこれから{$limita}秒間の間、ハンターに捕まるな！");
+				$this->getServer()->broadcastMessage("§e1人でも捕まってしまった場合、牢屋にいる者が全員ハンターになってしまう！");
+  				$this->addh = true;
+  			}
+  			break;
+  			
   			case $pacmend:
   			if($ifp == "true")
   			{
   				$this->getServer()->broadcastMessage("§l§bINFO>>§r §cパックマンミッションの立場が通常に戻りました");
   				$this->getServer()->broadcastMessage("§l§bINFO>>§r §cハンターは、逃走者を捕まえにいこう！");
   				$this->pac = false;
+  			}
+  			break;
+  			
+  			case $addhend:
+  			if($this->addh == true)
+  			{
+  				$this->getServer()->broadcastMessage("§l§bINFO>>§r §cハンター増加ミッションの時間が終わったぞ！");
+  				$this->addh = false;
   			}
   			break;
   			
@@ -662,6 +808,10 @@ class Main extends pluginBase implements Listener
     	$this->gametime = $this->config->get("ゲーム時間(秒)");
  		$this->wt = $this->config->get("始まるまでの時間(秒)");
  		$this->cogame = false;
+ 		
+ 		$this->pac = false;
+    	$this->eme = false;
+    	$this->addh = false;
  	}
   	
   	public function endGame()
@@ -674,6 +824,11 @@ class Main extends pluginBase implements Listener
     	$this->gametime = $this->config->get("ゲーム時間(秒)");
  		$this->wt = $this->config->get("始まるまでの時間(秒)");
  		$this->cogame = false;
+ 		$this->map = 1;
+ 		
+ 		$this->pac = false;
+    	$this->eme = false;
+    	$this->addh = false;
  		
  		$scheduler = $this->getScheduler();
  		$scheduler->cancelAllTasks();
@@ -870,6 +1025,7 @@ class Main extends pluginBase implements Listener
   	
   	$misse = $this->mis->get("エメラルドブロックタップ");
   	$missp = $this->mis->get("パックマンミッション");
+  	$missh = $this->mis->get("ハンター増加");
   	
   	if($pk->getName() == "ModalFormResponsePacket")
   	{
@@ -940,13 +1096,13 @@ class Main extends pluginBase implements Listener
 					[
 						"type" => "input",
 						"text" => "待機時間の現在の設定:{$wti}§b秒",
-						"placeholder" => "",
+						"placeholder" => "11秒以上を設定してください",
 						"default" => ""
 					],
 					[
 						"type" => "input",
 						"text" => "ゲーム時間の現在の設定:{$gti}§b秒",
-						"placeholder" => "4",
+						"placeholder" => "",
 						"default" => ""
 					]
 				]
@@ -981,22 +1137,14 @@ class Main extends pluginBase implements Listener
 			elseif($data == 5)
 			{
 				$buttons[] = [ 
-				'text' => "§l§1逃走者のテレポ地点", 
+				'text' => "§l§3マップ1の座標指定", 
 				'image' => [ 'type' => 'path', 'data' => "" ]  
 				]; //0
 				$buttons[] = [ 
-				'text' => "§l§2ハンターのテレポ地点", 
+				'text' => "§l§1マップ2の座標指定", 
 				'image' => [ 'type' => 'path', 'data' => "" ]  
 				]; //1
-				$buttons[] = [ 
-				'text' => "§l§3牢屋のテレポ地点", 
-				'image' => [ 'type' => 'path', 'data' => "" ]  
-				]; //2
-				$buttons[] = [ 
-				'text' => "§l§1観戦のテレポ地点", 
-				'image' => [ 'type' => 'path', 'data' => "" ]  
-				]; //3
-				$this->sendForm($player,"逃走中座標の設定","指定したい設定ボタンを押すと現在の座標が登録されます。\n",$buttons,4091);
+				$this->sendForm($player,"逃走中座標の設定","指定したい設定ボタンを押すと現在の座標が登録されます。\n",$buttons,467389);
         		$this->info[$name] = "form";
 				break;
 			
@@ -1069,7 +1217,7 @@ class Main extends pluginBase implements Listener
         		'image' => [ 'type' => 'path', 'data' => "" ] 
         		]; //1
         		$buttons[] = [ 
-        		'text' => "§7準備中", 
+        		'text' => "§cハンターの増加", 
         		'image' => [ 'type' => 'path', 'data' => "" ] 
         		]; //2
         		$buttons[] = [ 
@@ -1198,8 +1346,58 @@ class Main extends pluginBase implements Listener
 					}
 				break;
 				
+				case 467389:
+				if($data == 0)
+				{
+					$buttons[] = [ 
+					'text' => "§l§1逃走者のテレポ地点", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //0
+					$buttons[] = [ 
+					'text' => "§l§2ハンターのテレポ地点", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //1
+					$buttons[] = [ 
+					'text' => "§l§3牢屋のテレポ地点", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //2
+					$buttons[] = [ 
+					'text' => "§l§1観戦のテレポ地点", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //3
+					$this->sendForm($player,"逃走中座標の設定","マップ1の指定したい設定ボタンを押すと現在の座標が登録されます。\n",$buttons,4091);
+        			$this->info[$name] = "form";
+					break;
+				}
+				elseif($data == 1)
+				{
+					$buttons[] = [ 
+					'text' => "§l§1逃走者のテレポ地点", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //0
+					$buttons[] = [ 
+					'text' => "§l§2ハンターのテレポ地点", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //1
+					$buttons[] = [ 
+					'text' => "§l§3牢屋のテレポ地点", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //2
+					$buttons[] = [ 
+					'text' => "§l§1観戦のテレポ地点", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //3
+					$buttons[] = [ 
+					'text' => "§l§6準備はどうですか？(*'ω'*)", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //4
+					$this->sendForm($player,"逃走中座標の設定","マップ2の指定したい設定ボタンを押すと現在の座標が登録されます。\n",$buttons,4092);
+        			$this->info[$name] = "form";
+					break;
+				}
 				
-				case 4091:
+				
+				case 4091: //マップ1
 				$x = $player->x;
 				$y = $player->y;
 				$z = $player->z;
@@ -1208,56 +1406,161 @@ class Main extends pluginBase implements Listener
 				$level_name = $level->getName();
 				if($data == 0) // 逃走者
 				{
-					$player->sendMessage("§l§aMessage>>§r 逃走者の座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
+					$player->sendMessage("§l§aMessage>>§r マップ1の逃走者の座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
 					
-					$data = $this->xyz->get("逃走者");
-					$data["x"] = $x;
-					$data["y"] = $y;
-					$data["z"] = $z;
+					$data = $this->xyz->get("マップ1");
+					$data["逃走者"]["x"] = $x;
+					$data["逃走者"]["y"] = $y;
+					$data["逃走者"]["z"] = $z;
 					
-					$this->xyz->set("逃走者", $data);
+					$data["逃走者"]["ワールド"] = $level_name;
+					
+					$this->xyz->set("マップ1", $data);
 					$this->xyz->save();
 					
-					$this->xyz->set("ワールド", $level_name);
+					$this->xyz->set("マップ1", $data);
 					$this->xyz->save();
 					break;
 				}	
 				elseif($data == 1) // ハンター
 				{
-					$player->sendMessage("§l§aMessage>>§r ハンターの座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
+					$player->sendMessage("§l§aMessage>>§r マップ1のハンターの座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
 					
-					$data = $this->xyz->get("ハンター");
-					$data["x"] = $x;
-					$data["y"] = $y;
-					$data["z"] = $z;
+					$data = $this->xyz->get("マップ1");
+					$data["ハンター"]["x"] = $x;
+					$data["ハンター"]["y"] = $y;
+					$data["ハンター"]["z"] = $z;
 					
-					$this->xyz->set("ハンター", $data);
+					$this->xyz->set("マップ1", $data);
 					$this->xyz->save();
 					break;
 				}
 				elseif($data == 2) // 牢屋
 				{
-					$player->sendMessage("§l§aMessage>>§r 牢屋の座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
+					$player->sendMessage("§l§aMessage>>§r マップ1の牢屋の座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
 					
-					$data = $this->xyz->get("牢屋");
-					$data["x"] = $x;
-					$data["y"] = $y;
-					$data["z"] = $z;
+					$data = $this->xyz->get("マップ1");
+					$data["牢屋"]["x"] = $x;
+					$data["牢屋"]["y"] = $y;
+					$data["牢屋"]["z"] = $z;
 					
-					$this->xyz->set("牢屋", $data);
+					$this->xyz->set("マップ1", $data);
 					$this->xyz->save();
 					break;
 				}
 				elseif($data == 3) // 観戦
 				{
-					$player->sendMessage("§l§aMessage>>§r 観戦の座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
+					$player->sendMessage("§l§aMessage>>§r マップ1の観戦の座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
 					
-					$data = $this->xyz->get("観戦");
-					$data["x"] = $x;
-					$data["y"] = $y;
-					$data["z"] = $z;
+					$data = $this->xyz->get("マップ1");
+					$data["観戦"]["x"] = $x;
+					$data["観戦"]["y"] = $y;
+					$data["観戦"]["z"] = $z;
 					
-					$this->xyz->set("観戦", $data);
+					$this->xyz->set("マップ1", $data);
+					$this->xyz->save();
+					break;
+				}
+				break;
+				
+				case 4092: //マップ2
+				$x = $player->x;
+				$y = $player->y;
+				$z = $player->z;
+				
+				$level = $player->getLevel();
+				$level_name = $level->getName();
+				if($data == 0) // 逃走者
+				{
+					$player->sendMessage("§l§aMessage>>§r マップ2の逃走者の座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
+					
+					$data = $this->xyz->get("マップ2");
+					$data["逃走者"]["x"] = $x;
+					$data["逃走者"]["y"] = $y;
+					$data["逃走者"]["z"] = $z;
+					
+					$data["逃走者"]["ワールド"] = $level_name;
+					
+					$this->xyz->set("マップ2", $data);
+					$this->xyz->save();
+					
+					$this->xyz->set("マップ2", $data);
+					$this->xyz->save();
+					break;
+				}	
+				elseif($data == 1) // ハンター
+				{
+					$player->sendMessage("§l§aMessage>>§r マップ2のハンターの座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
+					
+					$data = $this->xyz->get("マップ2");
+					$data["ハンター"]["x"] = $x;
+					$data["ハンター"]["y"] = $y;
+					$data["ハンター"]["z"] = $z;
+					
+					$this->xyz->set("マップ2", $data);
+					$this->xyz->save();
+					break;
+				}
+				elseif($data == 2) // 牢屋
+				{
+					$player->sendMessage("§l§aMessage>>§r マップ2の牢屋の座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
+					
+					$data = $this->xyz->get("マップ2");
+					$data["牢屋"]["x"] = $x;
+					$data["牢屋"]["y"] = $y;
+					$data["牢屋"]["z"] = $z;
+					
+					$this->xyz->set("マップ2", $data);
+					$this->xyz->save();
+					break;
+				}
+				elseif($data == 3) // 観戦
+				{
+					$player->sendMessage("§l§aMessage>>§r マップ2の観戦の座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
+					
+					$data = $this->xyz->get("マップ2");
+					$data["観戦"]["x"] = $x;
+					$data["観戦"]["y"] = $y;
+					$data["観戦"]["z"] = $z;
+					
+					$this->xyz->set("マップ2", $data);
+					$this->xyz->save();
+					break;
+				}
+				elseif($data == 4) //準備
+				{
+					$buttons[] = [ 
+        			'text' => "§lできました！", 
+        			'image' => [ 'type' => 'path', 'data' => "" ] 
+        			]; //0
+        			$buttons[] = [ 
+        			'text' => "§lまだ！", 
+        			'image' => [ 'type' => 'path', 'data' => "" ] 
+        			]; //1
+        			$this->sendForm($player,"§l準備はどうですか","マップ2の準備はできましたか？",$buttons,992881);
+        			$this->info[$name] = "form";
+					break;
+				}
+				break;
+				
+				case 992881:
+				if($data == 0)
+				{
+					$player->sendMessage("§l§aMessage>>§r §a設定お疲れ様です！、次回の逃走中から適用されます！");
+					$data = $this->xyz->get("マップ2");
+					$data["準備(ok or no)"] = "ok";
+					
+					$this->xyz->set("マップ2", $data);
+					$this->xyz->save();
+					break;
+				}
+				else
+				{
+					$player->sendMessage("§l§aMessage>>§r §c了解です！準備頑張ってください！");
+					$data = $this->xyz->get("マップ2");
+					$data["準備(ok or no)"] = "no";
+					
+					$this->xyz->set("マップ2", $data);
 					$this->xyz->save();
 					break;
 				}
@@ -1306,6 +1609,28 @@ class Main extends pluginBase implements Listener
         			$this->sendForm($player,"パックマンミッションの設定","パックマンミッションの設定\ntrue = 発動\nfalse = 不発動\n\n§a発動条件:§f{$if}\n§a発動時間:{$time}秒\n§a報酬:{$money}",$buttons,70991);
         			$this->info[$name] = "form";
 					break;
+					
+					case 2: //ハンター増加
+					$if = $missh["発動"];
+					$time = $missh["時間"];
+					$money = $missh["報酬"];
+					$limit = $missh["制限時間"];
+					
+					$buttons[] = [ 
+        			'text' => "§l発動設定の変更", 
+        			'image' => [ 'type' => 'path', 'data' => "" ] 
+        			]; //0
+        			$buttons[] = [ 
+        			'text' => "§l発動時間の変更", 
+        			'image' => [ 'type' => 'path', 'data' => "" ] 
+        			]; //1
+        			$buttons[] = [
+        			"text" => "§l制限時間の変更",
+        			'image' => [ 'type' => 'path', 'data' => "" ] 
+        			]; //2
+        			$this->sendForm($player,"ハンター増加ミッションの設定","ハンター増加の現在の設定\ntrue = 発動\nfalse = 不発動\n\n発動条件:§f{$if}\n発動時間:{$time}秒\n報酬:{$money}\n制限時間{$limit}",$buttons,70882);
+        			$this->info[$name] = "form";
+					break;
 				}
 				break;
 				
@@ -1324,7 +1649,7 @@ class Main extends pluginBase implements Listener
         			'text' => "§lfalse(不発動)", 
         			'image' => [ 'type' => 'path', 'data' => "" ] 
         			]; //1
-        			$this->sendForm($player,"発動設定","現在の設定:{$if}",$buttons,70991);
+        			$this->sendForm($player,"発動設定","現在の設定:{$if}",$buttons,7099);
         			$this->info[$name] = "form";
 					break;
 					
@@ -1370,7 +1695,7 @@ class Main extends pluginBase implements Listener
 				}
 				break;
 				
-				case 70991:
+				case 70991: //パックマン
 				$if = $missp["発動"];
 				$time = $missp["時間"];
 				
@@ -1431,10 +1756,73 @@ class Main extends pluginBase implements Listener
 				}
 				break;
 				
-				case 70991: //エメラルド発動
+				case 70882: //ハンター増加
+				$if = $missh["発動"];
+				$time = $missh["時間"];
+				$money = $missh["報酬"];
+				$limit = $missh["制限時間"];
+				
+				switch($data)
+				{
+					case 0: //発動
+					$buttons[] = [ 
+        			'text' => "§ltrue(発動)", 
+        			'image' => [ 'type' => 'path', 'data' => "" ] 
+        			]; //0
+        			$buttons[] = [ 
+        			'text' => "§lfalse(不発動)", 
+        			'image' => [ 'type' => 'path', 'data' => "" ] 
+        			]; //1
+        			$this->sendForm($player,"発動設定","ハンター増加現在の設定:{$if}",$buttons,70883);
+        			$this->info[$name] = "form";
+					break;
+					
+					case 1: //時間
+					$data = [
+					"type" => "custom_form",
+					"title" => "時間設定",
+					"content" => [
+						[
+						"type" => "label",
+						"text" => "時間を設定してください。"
+						],
+						[
+						"type" => "input",
+						"text" => "§b秒数",
+						"placeholder" => "",
+						"default" => ""
+						]
+					]
+				];
+					$this->createWindow($player, $data, 70884);
+					break;
+				
+					case 2: //制限時間
+					$data = [
+					"type" => "custom_form",
+					"title" => "制限時間設定",
+					"content" => [
+						[
+						"type" => "label",
+						"text" => "§l時間を設定してください。"
+						],
+						[
+						"type" => "input",
+						"text" => "§l§b制限時間",
+						"placeholder" => "",
+						"default" => ""
+						]
+					]
+				];
+					$this->createWindow($player, $data, 70885);
+					break;
+				}
+				break;
+				
+				case 7099: //エメラルド発動
 				if($data == 0)
 				{
-					$player->sendMessage("§l§aMessage>>§r 発動 に設定しました");
+					$player->sendMessage("§l§aMessage>>§r [エメラルド] 発動 に設定しました");
 					$misse["発動"] = "true";
 					
 					$this->mis->set("エメラルドブロックタップ", $misse);
@@ -1443,7 +1831,7 @@ class Main extends pluginBase implements Listener
 				}
 				else
 				{
-					$player->sendMessage("§l§aMessage>>§r 不発動 に設定しました");
+					$player->sendMessage("§l§aMessage>>§r [エメラルド] 不発動 に設定しました");
 					$misse["発動"] = "false";
 					
 					$this->mis->set("エメラルドブロックタップ", $misse);
@@ -1452,10 +1840,10 @@ class Main extends pluginBase implements Listener
 				}
 				break;
 				
-				case 70992:
+				case 70992: //パックマン発動
 				if($data == 0)
 				{
-					$player->sendMessage("§l§aMessage>>§r 発動 に設定しました");
+					$player->sendMessage("§l§aMessage>>§r [パックマン] 発動 に設定しました");
 					$missp["発動"] = "true";
 					
 					$this->mis->set("パックマンミッション", $missp);
@@ -1464,7 +1852,7 @@ class Main extends pluginBase implements Listener
 				}
 				else
 				{
-					$player->sendMessage("§l§aMessage>>§r 不発動 に設定しました");
+					$player->sendMessage("§l§aMessage>>§r [パックマン] 不発動 に設定しました");
 					$missp["発動"] = "false";
 					
 					$this->mis->set("パックマンミッション", $missp);
@@ -1477,7 +1865,7 @@ class Main extends pluginBase implements Listener
 				$time = $result[1];
 				if(is_numeric($time))
 				{
-					$player->sendMessage("§l§aMessage>>§r 発動時間を§l{$time}§rに更新しました");
+					$player->sendMessage("§l§aMessage>>§r [エメラルド] 発動時間を§l{$time}§rに更新しました");
 					$misse["時間"] = $time;
 					
 					$this->mis->set("エメラルドブロックタップ", $misse);
@@ -1495,7 +1883,7 @@ class Main extends pluginBase implements Listener
 				$time = $result[1];
 				if(is_numeric($time))
 				{
-					$player->sendMessage("§l§aMessage>>§r 発動時間を§l{$time}§rに更新しました");
+					$player->sendMessage("§l§aMessage>>§r [パックマン] 発動時間を§l{$time}§rに更新しました");
 					$missp["時間"] = $time;
 					
 					$this->mis->set("パックマンミッション", $missp);
@@ -1513,7 +1901,7 @@ class Main extends pluginBase implements Listener
 				$money = $result[1];
 				if(is_numeric($money))
 				{
-					$player->sendMessage("§l§aMessage>>§r 報酬を§l{$money}§rに更新しました");
+					$player->sendMessage("§l§aMessage>>§r [エメラルド] 報酬を§l{$money}§rに更新しました");
 					$misse["報酬"] = $money;
 					
 					$this->mis->set("エメラルドブロックタップ", $misse);
@@ -1527,11 +1915,11 @@ class Main extends pluginBase implements Listener
 				}
 				break;
 				
-				case 920183:
+				case 920183: //パックマン報酬
 				$money = $result[1];
 				if(is_numeric($money))
 				{
-					$player->sendMessage("§l§aMessage>>§r 報酬を§l{$money}§rに更新しました");
+					$player->sendMessage("§l§aMessage>>§r [パックマン] 報酬を§l{$money}§rに更新しました");
 					$missp["報酬"] = $money;
 					
 					$this->mis->set("パックマンミッション", $missp);
@@ -1544,6 +1932,68 @@ class Main extends pluginBase implements Listener
 					break;
 				}
 				break;
+				
+				
+					/*ハンター増加*/
+				case 70883: //条件
+				if($data == 0)
+				{
+					$player->sendMessage("§l§aMessage>>§r [ハンター増加] 発動 に設定しました");
+					$missh["発動"] = "true";
+					
+					$this->mis->set("ハンター増加", $missh);
+					$this->mis->save();
+					break;
+				}
+				else
+				{
+					$player->sendMessage("§l§aMessage>>§r [ハンター増加] 不発動 に設定しました");
+					$missh["発動"] = "false";
+					
+					$this->mis->set("ハンター増加", $missh);
+					$this->mis->save();
+					break;
+				}
+				break;
+				
+				case 70884: //時間
+				$time = $result[1];
+				if(is_numeric($time))
+				{
+					$player->sendMessage("§l§aMessage>>§r [ハンター増加] 発動時間を§l{$time}§rに更新しました");
+					$missh["時間"] = $time;
+					
+					$this->mis->set("ハンター増加", $misse);
+					$this->mis->save();
+					break;
+				}
+				else
+				{
+					$player->sendMessage("§l§aMessage>>§r §c数字を入力してください！");
+					break;
+				}
+				break;
+				
+				case 77085: //制限時間
+				$limit = $result[1];
+				if(is_numeric($limit))
+				{
+					$player->sendMessage("§l§aMessage>>§r [ハンター増加] 制限時間を§l{$limit}§rに更新しました");
+					$missh["制限時間"] = $limit;
+					
+					$this->mis->set("ハンター増加", $missp);
+					$this->mis->save();
+					break;
+				}
+				else
+				{
+					$player->sendMessage("§l§aMessage>>§r §c数字を入力してください！");
+					break;
+				}
+				break;
+				
+				
+				
 				/* プレイヤー用 */
 				
 				case 1145145://プレイヤー用
@@ -1590,25 +2040,31 @@ class Main extends pluginBase implements Listener
 							}
 							else
 							{
-								$rand = mt_rand(1,4);
-								switch($rand)
+								if($H < 10)
 								{
-									case 1:
-									case 2:
-									case 4:	
-									
-									$team = "runner";
-									$this->team($player, $team);
-									$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中に参加しました");
-									break;	
+									if($H >= $T / 3)
+									{
+										$team = "runner";
+										$this->team($player, $team);
+										$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中に参加しました");
+										
+										}
+										elseif($H < $T)
+										{
+											$team = "hunter";
+											$this->team($player, $team);
+											$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中に参加しました");
 											
-									case 3:
-									$team = "hunter";
-									$this->team($player, $team);
-									$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中に参加しました");
-									break;
-								
-								
+										}
+										elseif($H === $T)
+										{
+											$team = 'runner';
+											$this->team($player, $team);
+											$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中に参加しました");
+										}
+								}
+								else
+								{
 									$team = 'runner';
 									$this->team($player, $team);
 									$this->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中に参加しました");
