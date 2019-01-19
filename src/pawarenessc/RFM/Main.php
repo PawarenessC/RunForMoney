@@ -237,7 +237,7 @@ class Main extends pluginBase implements Listener
 		}
 		if(!$this->runnerc->exists($name))
 		{
-			$this->runner->set($name, 0);
+			$this->runnerc->set($name, 0);
 			$this->runnerc->save();
 		}
 		
