@@ -68,7 +68,7 @@ class Main extends pluginBase implements Listener
  			$this->getLogger()->info("制作者: PawarenessC,NRedFire");
  			$this->getLogger()->info("ライセンス: NYSL Version 0.9982");
  			$this->getLogger()->info("http://www.kmonos.net/nysl/");
- 			$this->getLogger()->info("v10.47.4");
+ 			$this->getLogger()->info("v10.48.0");
  			$this->getLogger()->info("=========================");
  		
     	
