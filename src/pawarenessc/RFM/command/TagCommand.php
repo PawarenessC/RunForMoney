@@ -73,10 +73,11 @@ use pocketmine\command\CommandSender;
 						'text' => "§l復活アイテム", 
 						'image' => [ 'type' => 'path', 'data' => "" ]  
 						]; //4
-						$main->sendForm($player,"逃走中","購入したいアイテムを選択してね?\n",$buttons,4000);
-        				$main->info[$name] = "form";
+						$main->sendForm($sender,"逃走中","購入したいアイテムを選択してね?\n",$buttons,4000);
+        					$main->info[$name] = "form";
 						break;
 				}
+			return false;
 		}
 	}
 	
