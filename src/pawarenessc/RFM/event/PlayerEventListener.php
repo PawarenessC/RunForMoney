@@ -234,7 +234,7 @@ class PlayerEventListener implements Listener
 			
 			if( $id == $weapon["Invisible"]["id"] && $cname == $weapon["Invisible"]["Name"] ) //透明
 			{
-				$player->addEffect(new EffectInstance(Effect::getEffect(12), 200, 3, true));
+				$player->addEffect(new EffectInstance(Effect::getEffect(14), 200, 3, true));
 				$player->getInventory()->removeItem($item);
 				
 				$player->sendMessage("§l§aMessage>>§r §7透明アイテム§fを使った！");
