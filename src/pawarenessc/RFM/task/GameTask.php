@@ -75,7 +75,7 @@ class GameTask extends Task
 			
 			$owner->Popup("§f残り時間:§l§f{$minutes}§r§b:§r§f§l{$seconds}§r§e \n§r賞金  §d".$win."§b円§r\n     §l§a逃走者 ".$t." §cvs §bハンター ".$h."\n\n\n\n");
 			
-			/*if($t == 0 or $t < 0)
+			if($t == 0 or $t < 0)
 			{
 				$owner->msg("§l§bINFO>>§r §a逃走者が全滅しました！");
 				$owner->msg("§l§bINFO>>§r §bハンターの勝利です！");
@@ -89,12 +89,12 @@ class GameTask extends Task
 				$owner->msg("§l§bINFO>>§r §b逃走者の勝利です！");
 				$owner->msg("§l§bINFO>>§r §b逃走者が§6{$win}§b円の賞金を手にいれた！");
   				$owner->endGame();
-			}*/
+			}
 			
 			switch($owner->gametime)
 			{
 				case $truegame:
-				/*if(1 >= $all)
+				if(1 >= $all)
 				{
 					$owner->msg("§l§bINFO>>§r §c逃走中開始には2人以上必要です。");
 					$owner->msg("§l§bINFO>>§r §cゲームを終了しました");
@@ -103,7 +103,7 @@ class GameTask extends Task
 					break;
 				}
 				else
-				{*/
+				{
 					$owner->msg("§l§bINFO>>§r §b逃走中を開始しました！！ハンターは不思議なパーティクルを身に着けているよ！");
 					$owner->msg("§l§bINFO>>§r §aハンターは10秒間動けません");
   					$owner->game = true;
@@ -150,7 +150,7 @@ class GameTask extends Task
 						}
 					}
 				}
-				//}
+				}
 				break;
 			
 				case $huntermove:
