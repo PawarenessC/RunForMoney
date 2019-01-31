@@ -4,6 +4,7 @@ namespace pawarenessc\RFM\event;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
@@ -86,6 +87,14 @@ class PlayerEventListener implements Listener
 				$this->owner->hunterc->save();
 			}
 			
+		}
+	
+		public function onLogin(PlayerLoginEvent $event)
+ 		{
+ 			$player = $event->getPlayer();
+			$name = $player->getName();
+			
+			$this->owner->type[$name] = 4;
 		}
 		
 		public function onQuit(PlayerQuitEvent $event)
@@ -255,13 +264,13 @@ class PlayerEventListener implements Listener
 				if($map == 1)
 				{
 					$xyz = new Vector3($data["Runner"]["x"], $data["Runner"]["y"], $data["Runner"]["z"], $data["world"]);
-        	   		$player->teleport($xyz);
+        	   			$player->teleport($xyz);
 					$this->owner->t++;
 				}
 				else
 				{
 					$xyz = new Vector3($data2["Runner"]["x"], $data2["Runner"]["y"], $data2["Runner"]["z"], $data2["world"]);
-        	   		$player->teleport($xyz);
+        	   			$player->teleport($xyz);
 					$this->owner->t++;
 				}
 			}
