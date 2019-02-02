@@ -1,0 +1,8 @@
+UnitPrice: "5"
+RevivalBlockID: 1
+SelfBlockID: 121
+WatchBlockID: 19
+WaitTime: "11"
+GameTime: "300"
+Plugin: EconomyAPI
+Reward: 100

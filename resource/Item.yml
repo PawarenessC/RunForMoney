@@ -1,0 +1,20 @@
+HunterSpeedDown:
+  Name: Down!
+  id: "422"
+  Price: 100
+SpeedUp:
+  Name: Up!
+  id: "405"
+  Price: 100
+HighJump:
+  Name: Jump!!
+  id: "377"
+  Price: 30
+Invisible:
+  Name: This is a Invisible
+  id: "369"
+  Price: 100
+Revival:
+  Name: RevivalItem
+  id: "452"
+  Price: 100

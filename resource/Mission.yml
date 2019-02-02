@@ -1,0 +1,16 @@
+EmeraldMission:
+  if: "true"
+  time: 200
+  Reward: 100
+Pac-ManMission:
+  if: "false"
+  time: 100
+  Reward: 100
+Increases Hunter:
+  if: "false"
+  time: 100
+  LimitTime: 30
+???:
+  if: "false"
+  time: 100
+  Reward: 100
