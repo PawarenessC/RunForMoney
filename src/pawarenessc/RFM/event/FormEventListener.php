@@ -1695,26 +1695,33 @@ class FormEventListener implements Listener
 				case 4001: //スピードダウン購入
 				if($data == 0)
 				{
-					$money = $owner->getMoney($name);
-					$sell = $weapon["HunterSpeedDown"]["Price"];
-					$id = $weapon["HunterSpeedDown"]["id"];
-					$iname = $weapon["HunterSpeedDown"]["Name"];
-					
-					$price = $sell * $result[2];
-					
-					if($money < $price)
+					if(is_numeric($result[2]))
 					{
-						$non = $price - $money;
-						$player->sendMessage("§l§aMessage>>§r §cあなたの所持金では§l§r{$non}§r§c円足りません...");
-						return true;
-					}
-					else
+						$money = $owner->getMoney($name);
+						$sell = $weapon["HunterSpeedDown"]["Price"];
+						$id = $weapon["HunterSpeedDown"]["id"];
+						$iname = $weapon["HunterSpeedDown"]["Name"];
+						
+						$price = $sell * $result[2];
+						
+						if($money < $price)
+						{
+							$non = $price - $money;
+							$player->sendMessage("§l§aMessage>>§r §cあなたの所持金では§l§r{$non}§r§c円足りません...");
+							return true;
+						}
+						else
+						{
+							$owner->cutMoney($name, $price);
+							$player->sendMessage("§l§aMessage>>§r §eスピードダウンアイテムを§d{$result[2]}個§e購入しました");
+							$item = Item::get($id,0,$result[2]);
+							$item->setCustomName($iname);
+							$player->getInventory()->addItem($item);
+							break;
+						}
+					}else
 					{
-						$owner->cutMoney($name, $price);
-						$player->sendMessage("§l§aMessage>>§r §eスピードダウンアイテムを§d{$result[2]}個§e購入しました");
-						$item = Item::get($id,0,$result[2]);
-						$item->setCustomName($iname);
-						$player->getInventory()->addItem($item);
+						$player->sendMessage("§l§aMessage>>§r §c{$result[2]} は数値ではありません");
 						break;
 					}
 				}
@@ -1745,26 +1752,33 @@ class FormEventListener implements Listener
 				case 4002: //スピードあぷう
 				if($data ==  0)
 				{
-					$money = $owner->getMoney($name);
-					$sell = $weapon["SpeedUp"]["Price"];
-					$id = $weapon["SpeedUp"]["id"];
-					$iname = $weapon["SpeedUp"]["Name"];
-					
-					$price = $sell * $result[2];
-					
-					if($money < $price)
+					if(is_numeric($result[2]))
 					{
-						$non = $price - $money;
-						$player->sendMessage("§l§aMessage>>§r §cあなたの所持金では§l§r{$non}§r§c円足りません...");
-						return true;
-					}
-					else
+						$money = $owner->getMoney($name);
+						$sell = $weapon["SpeedUp"]["Price"];
+						$id = $weapon["SpeedUp"]["id"];
+						$iname = $weapon["SpeedUp"]["Name"];
+						
+						$price = $sell * $result[2];
+						
+						if($money < $price)
+						{
+							$non = $price - $money;
+							$player->sendMessage("§l§aMessage>>§r §cあなたの所持金では§l§r{$non}§r§c円足りません...");
+							return true;
+						}
+						else
+						{
+							$owner->cutMoney($name, $price);
+							$player->sendMessage("§l§aMessage>>§r §eスピードアップアイテムを§d{$result[2]}個§e購入しました");
+							$item = Item::get($id,0,$result[2]);
+							$item->setCustomName($iname);
+							$player->getInventory()->addItem($item);
+							break;
+						}
+					}else
 					{
-						$owner->cutMoney($name, $price);
-						$player->sendMessage("§l§aMessage>>§r §eスピードアップアイテムを§d{$result[2]}個§e購入しました");
-						$item = Item::get($id,0,$result[2]);
-						$item->setCustomName($iname);
-						$player->getInventory()->addItem($item);
+						$player->sendMessage("§l§aMessage>>§r §c{$result[2]} は数値ではありません");
 						break;
 					}
 				}
@@ -1796,26 +1810,33 @@ class FormEventListener implements Listener
 				case 4003: //ハイジャンプう
 				if($data == 0)
 				{
-					$money = $owner->getMoney($name);
-					$sell = $weapon["HighJump"]["Price"];
-					$id = $weapon["HighJump"]["id"];
-					$iname = $weapon["HighJump"]["Name"];
-					
-					$price = $result[2];
-					
-					if($money < $price)
+					if(is_numeric($result[2]))
 					{
-						$non = $price - $money;
-						$player->sendMessage("§l§aMessage>>§r §cあなたの所持金では§l§r{$non}§r§c円足りません...");
-						return true;
-					}
-					else
+						$money = $owner->getMoney($name);
+						$sell = $weapon["HighJump"]["Price"];
+						$id = $weapon["HighJump"]["id"];
+						$iname = $weapon["HighJump"]["Name"];
+						
+						$price = $result[2];
+						
+						if($money < $price)
+						{
+							$non = $price - $money;
+							$player->sendMessage("§l§aMessage>>§r §cあなたの所持金では§l§r{$non}§r§c円足りません...");
+							return true;
+						}
+						else
+						{
+							$owner->cutMoney($name, $price);
+							$player->sendMessage("§l§aMessage>>§r §eハイジャンプアイテムを§d{$result[2]}個§e購入しました");
+							$item = Item::get($id,0,$result[2]);
+							$item->setCustomName($iname);
+							$player->getInventory()->addItem($item);
+							break;
+						}
+					}else
 					{
-						$owner->cutMoney($name, $price);
-						$player->sendMessage("§l§aMessage>>§r §eハイジャンプアイテムを§d{$result[2]}個§e購入しました");
-						$item = Item::get($id,0,$result[2]);
-						$item->setCustomName($iname);
-						$player->getInventory()->addItem($item);
+						$player->sendMessage("§l§aMessage>>§r §c{$result[2]} は数値ではありません");
 						break;
 					}
 				}
@@ -1846,26 +1867,33 @@ class FormEventListener implements Listener
 				case 4004: //透明ぃ
 				if($data == 0)
 				{
-					$money = $owner->getMoney($name);
-					$sell = $weapon["Invisible"]["Price"];
-					$id = $weapon["Invisible"]["id"];
-					$iname = $weapon["Invisible"]["Name"];
-					
-					$price = $sell * $result[2];
-					
-					if($money < $price)
+					if(is_numeric($result[2]))
 					{
-						$non = $price - $money;
-						$player->sendMessage("§l§aMessage>>§r §cあなたの所持金では§l§r{$non}§r§c円足りません...");
-						return true;
-					}
-					else
+						$money = $owner->getMoney($name);
+						$sell = $weapon["Invisible"]["Price"];
+						$id = $weapon["Invisible"]["id"];
+						$iname = $weapon["Invisible"]["Name"];
+						
+						$price = $sell * $result[2];
+						
+						if($money < $price)
+						{
+							$non = $price - $money;
+							$player->sendMessage("§l§aMessage>>§r §cあなたの所持金では§l§r{$non}§r§c円足りません...");
+							return true;
+						}
+						else
+						{
+							$owner->cutMoney($name, $price);
+							$player->sendMessage("§l§aMessage>>§r §e透明アイテムを§d{$result[2]}個§e購入しました");
+							$item = Item::get($id,0,$result[2]);
+							$item->setCustomName($iname);
+							$player->getInventory()->addItem($item);
+							break;
+						}
+					}else
 					{
-						$owner->cutMoney($name, $price);
-						$player->sendMessage("§l§aMessage>>§r §e透明アイテムを§d{$result[2]}個§e購入しました");
-						$item = Item::get($id,0,$result[2]);
-						$item->setCustomName($iname);
-						$player->getInventory()->addItem($item);
+						$player->sendMessage("§l§aMessage>>§r §c{$result[2]} は数値ではありません");
 						break;
 					}
 				}
@@ -1896,26 +1924,33 @@ class FormEventListener implements Listener
 				case 4005: //復活ぅ
 				if($data == 0)
 				{
-					$money = $owner->getMoney($name);
-					$sell = $weapon["Revival"]["Price"];
-					$id = $weapon["Revival"]["id"];
-					$iname = $weapon["Revival"]["Name"];
-					
-					$price = $sell * $result[2];
-					
-					if($money < $price)
+					if(is_numeric($result[2]))
 					{
-						$non = $price - $money;
-						$player->sendMessage("§l§aMessage>>§r §cあなたの所持金では§l§r{$non}§r§c円足りません...");
-						return true;
-					}
-					else
+						$money = $owner->getMoney($name);
+						$sell = $weapon["Revival"]["Price"];
+						$id = $weapon["Revival"]["id"];
+						$iname = $weapon["Revival"]["Name"];
+						
+						$price = $sell * $result[2];
+						
+						if($money < $price)
+						{
+							$non = $price - $money;
+							$player->sendMessage("§l§aMessage>>§r §cあなたの所持金では§l§r{$non}§r§c円足りません...");
+							return true;
+						}
+						else
+						{
+							$owner->cutMoney($name, $price);
+							$player->sendMessage("§l§aMessage>>§r §e復活アイテムを§d{$result[2]}個§e購入しました");
+							$item = Item::get($id,0,$result[2]);
+							$item->setCustomName($iname);
+							$player->getInventory()->addItem($item);
+							break;
+						}
+					}else
 					{
-						$owner->cutMoney($name, $price);
-						$player->sendMessage("§l§aMessage>>§r §e復活アイテムを§d{$result[2]}個§e購入しました");
-						$item = Item::get($id,0,$result[2]);
-						$item->setCustomName($iname);
-						$player->getInventory()->addItem($item);
+						$player->sendMessage("§l§aMessage>>§r §c{$result[2]} は数値ではありません");
 						break;
 					}
 						
