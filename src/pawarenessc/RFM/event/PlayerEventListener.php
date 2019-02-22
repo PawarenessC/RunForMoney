@@ -133,7 +133,7 @@ class PlayerEventListener implements Listener
 			}
 		}
 		
-		public function onTouch(PlayerInteractEvent $event)
+		public function onBlockTap(PlayerInteractEvent $event)
 		{
 			$player = $event->getPlayer();
 			$name = $player->getName();
@@ -223,8 +223,10 @@ class PlayerEventListener implements Listener
         	    	$player->teleport($xyz);
         	    }
 			}
-			//////////////////////////////////アイテム////////////////////////////////
-			
+		}
+	
+		public function onUseItem(PlayerInteractEvent $event)
+		{
 			if( $id == $weapon["SpeedUp"]["id"] && $cname == $weapon["SpeedUp"]["Name"] && $this->owner->game == true ) //スピードあぷう
 			{
 				$player->addEffect(new EffectInstance(Effect::getEffect(1), 600, 2, true));
