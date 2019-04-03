@@ -36,7 +36,7 @@ use pawarenessc\RFM\task\GameTask;
 use pawarenessc\RFM\command\TagCommand;
 
 use MixCoinSystem\MixCoinSystem;
-use metowa1227\MoneySystemAPI\MoneySystemAPI;
+use metowa1227\moneysystem\api\core\API;
 
 class Main extends pluginBase implements Listener
 {
@@ -320,6 +320,7 @@ class Main extends pluginBase implements Listener
   	public function addMoney($money, $name)
   	{
  		$plugin = $this->config->get("Plugin");
+		$p = $this->getServer()->getPlayer($name);
  		
  		if($plugin == "EconomyAPI")
  		{
@@ -333,7 +334,7 @@ class Main extends pluginBase implements Listener
  		
  		if($plugin == "MoneySystem")
  		{
- 			MoneySystemAPI::getInstance()->AddMoneyByName($name, $money);
+ 			API::getInstance()->increase($p, $money, "win", "RunForMoney");
  		}
  		
  		if($plugin == "MoneyPlugin")
@@ -357,7 +358,7 @@ class Main extends pluginBase implements Listener
  		
  		if($plugin == "MoneySystem")
  		{
- 			return MoneySystemAPI::getInstance()->CheckByName($name);
+ 			return API::getInstance()->get($name);
  		}
  		
  		if($plugin == "MoneyPlugin")
