@@ -346,6 +346,7 @@ class Main extends pluginBase implements Listener
  	public function getMoney($name)
  	{
  		$plugin = $this->config->get("Plugin");
+		$p = $this->getServer()->getPlayer($name);
  		if($plugin == "EconomyAPI")
  		{
  	  		return $this->system->myMoney($name);
@@ -358,7 +359,7 @@ class Main extends pluginBase implements Listener
  		
  		if($plugin == "MoneySystem")
  		{
- 			return API::getInstance()->get($name);
+ 			return API::getInstance()->get($p);
  		}
  		
  		if($plugin == "MoneyPlugin")
