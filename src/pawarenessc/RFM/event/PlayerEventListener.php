@@ -227,6 +227,8 @@ class PlayerEventListener implements Listener
 	
 		public function onUseItem(PlayerInteractEvent $event)
 		{
+			$weapon = $this->owner->weapon->getAll();
+			
 			if( $id == $weapon["SpeedUp"]["id"] && $cname == $weapon["SpeedUp"]["Name"] && $this->owner->game == true ) //スピードあぷう
 			{
 				$player->addEffect(new EffectInstance(Effect::getEffect(1), 600, 2, true));
