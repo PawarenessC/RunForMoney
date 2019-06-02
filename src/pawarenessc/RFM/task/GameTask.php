@@ -77,38 +77,38 @@ class GameTask extends Task
 			
 				if($t == 0 or $t < 0)
 				{
+					$owner->msg("§l§bINFO>>§r §a逃走者が全滅しました！");
+					$owner->msg("§l§bINFO>>§r §bハンターの勝利です！");
+					$owner->msg("§l§bINFO>>§r §cハンターは§6{$win}§b円の賞金を手にいれた！");
+  					$owner->endGame();
+				
 					foreach ($players as $player)
   					{
 						$name = $player->getName();
-						$owner->msg("§l§bINFO>>§r §a逃走者が全滅しました！");
-						$owner->msg("§l§bINFO>>§r §bハンターの勝利です！");
-						$owner->msg("§l§bINFO>>§r §cハンターは§6{$win}§b円の賞金を手にいれた！");
-  						$owner->endGame();
-				
-					if($owner->type[$name] == 2)
-					{
-  						$owner->addMoney($win, $name);
-  					}
+						if($owner->type[$name] == 2)
+						{
+  							$owner->addMoney($win, $name);
+  						}
+					}
 				}
-			}
 			
 				if($h == 0 or $h < 0)
 				{
+					$owner->msg("§l§bINFO>>§r §cハンターが全滅しました！");
+					$owner->msg("§l§bINFO>>§r §b逃走者の勝利です！");
+					$owner->msg("§l§bINFO>>§r §b逃走者が§6{$win}§b円の賞金を手にいれた！");
+  					$owner->endGame();
+					
 					foreach ($players as $player)
   					{
 						$name = $player->getName();
-						$owner->msg("§l§bINFO>>§r §cハンターが全滅しました！");
-						$owner->msg("§l§bINFO>>§r §b逃走者の勝利です！");
-						$owner->msg("§l§bINFO>>§r §b逃走者が§6{$win}§b円の賞金を手にいれた！");
-  						$owner->endGame();
+						if($owner->type[$name] == 1)
+						{
+  							$owner->addMoney($win, $name);
+  						}	
 					
-					if($owner->type[$name] == 1)
-					{
-  						$owner->addMoney($win, $name);
-  					}	
-					
+					}
 				}
-			}
 			
 			switch($owner->gametime)
 			{
