@@ -228,6 +228,7 @@ class PlayerEventListener implements Listener
 		public function onUseItem(PlayerInteractEvent $event)
 		{
 			$weapon = $this->owner->weapon->getAll();
+			$id = $event->getItem()->getId();
 			
 			if( $id == $weapon["SpeedUp"]["id"] && $cname == $weapon["SpeedUp"]["Name"] && $this->owner->game == true ) //スピードあぷう
 			{
