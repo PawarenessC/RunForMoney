@@ -229,6 +229,12 @@ class PlayerEventListener implements Listener
 		{
 			$weapon = $this->owner->weapon->getAll();
 			$id = $event->getItem()->getId();
+			$item = $event->getItem();
+			$cname = $item->getCustomName();
+			$data  = $this->owner->xyz->getAll()["MAP1"];
+			$data2 = $this->owner->xyz->getAll()["MAP2"];
+			
+			
 			
 			if( $id == $weapon["SpeedUp"]["id"] && $cname == $weapon["SpeedUp"]["Name"] && $this->owner->game == true ) //スピードあぷう
 			{
