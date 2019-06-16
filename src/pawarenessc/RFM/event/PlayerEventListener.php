@@ -236,6 +236,7 @@ class PlayerEventListener implements Listener
 			
 			$player = $event->getPlayer();
 			$name = $player->getName();
+			$map = $this->owner->map;
 			
 			
 			
