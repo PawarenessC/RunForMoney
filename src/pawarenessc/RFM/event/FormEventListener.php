@@ -699,6 +699,7 @@ class FormEventListener implements Listener
 					];
 					$owner->createWindow($player, $data, 6599); //ね？言ったでしょ？
 					break;
+				}
 				break;
 				
 				case 992881:
