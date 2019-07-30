@@ -192,7 +192,6 @@ class PlayerEventListener implements Listener
 					$xyz = new Vector3($data2["Runner"]["x"], $data2["Runner"]["y"], $data2["Runner"]["z"], $data2["world"]);
         	   			$player->teleport($xyz);
 				}
-				}
 				elseif($map == 3)
 				{
 					$xyz = new Vector3($data3["Runner"]["x"], $data3["Runner"]["y"], $data3["Runner"]["z"], $data3["world"]);
