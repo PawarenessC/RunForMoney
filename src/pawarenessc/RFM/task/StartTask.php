@@ -36,16 +36,26 @@ class StartTask extends Task
 			{
 				$map_name1 = $data["MAP1"]["Name"];
 				$map_name2 = $data["MAP2"]["Name"];
+				$map_about1 = $data["MAP1"]["About"];
+				$map_about2 = $data["MAP2"]["About"];
 				if($data["MAP2"]["Ready(ok or no)"] == "ok")
 				{
 					$owner->map = mt_rand(1,2);
-					if($owner->map == 1){ $owner->msg("§l§bINFO>>§r §a今回はマップは、§e§l{$map_name1}§r§a！"); }
-					if($owner->map == 2){ $owner->msg("§l§bINFO>>§r §a今回はマップは、§e§l{$map_name2}§r§a！"); }
+					if($owner->map == 1){
+					$owner->msg("§l§bINFO>>§r §a今回はマップは、§e§l{$map_name1}§r§a！");
+					$owner->msg("§l§bINFO>>§r {$map_about1}");
+					}
+					
+					if($owner->map == 2){
+					$owner->msg("§l§bINFO>>§r §a今回はマップは、§e§l{$map_name2}§r§a！");
+					$owner->msg("§l§bINFO>>§r {$map_about1}");	
+					}
 				}
 				else
 				{
 					$owner->map = 1;
 					$owner->msg("§l§bINFO>>§r §a今回のマップは、§e§l{$map_name1}§r§a！");
+					$owner->msg("§l§bINFO>>§r {$map_about1}");
 				}
 			}
 			
