@@ -38,4 +38,25 @@ MAP2:
     "y": 1818
     z: 810
   world: seki
-  Ready(ok or no): ok
+  Ready(ok or no): no
+MAP3:
+  Name: マップ3
+  About: マップ3は夢が詰まっているマップ！
+  Runner:
+    x: 11
+    "y": 4
+    z: 514
+  Jall:
+    x: 191
+    "y": 9
+    z: 810
+  Watch:
+    x: 11
+    "y": 11
+    z: 11
+  Hunter:
+    x: 666
+    "y": 1818
+    z: 810
+  world: seki
+  Ready(ok or no): no
