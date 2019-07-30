@@ -1081,19 +1081,10 @@ class FormEventListener implements Listener
     				$player->setNameTag("");
 					$name = $player->getName();
 
-     				if($owner->type[$name] == 1)
+     				if($owner->type[$name] == 1 or $owner->type[$name] == 2 or $owner->type[$name] == 3)
      				{
 						$player->sendMessage("§l§aMessage>>§r §c既に参加しています");
-					
-					}
-					elseif($owner->type[$name] == 2)
-					{
-      					$player->sendMessage("§l§aMessage>>§r §c既に参加しています");
-     				}
-     				elseif($owner->type[$name] == 3)
-     				{
-						$player->sendMessage("§l§aMessage>>§r §c既に参加しています");
-					}
+				}
 					else
 					{
   						if($owner->game == false)
@@ -1114,35 +1105,19 @@ class FormEventListener implements Listener
 							}
 							else
 							{
-								if($H < 10)
-								{
-									if($H >= $T / 3)
-									{
+								if(mt_rand(1,3) !== 3){ 
 										$team = "runner";
 										$owner->team($player, $team);
 										$owner->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中に参加しました");
 										
 										}
-										elseif($H < $T)
+										else
 										{
 											$team = "hunter";
 											$owner->team($player, $team);
 											$owner->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中に参加しました");
 											
 										}
-										elseif($H === $T)
-										{
-											$team = 'runner';
-											$owner->team($player, $team);
-											$owner->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中に参加しました");
-										}
-								}
-								else
-								{
-									$team = 'runner';
-									$owner->team($player, $team);
-									$owner->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中に参加しました");
-								}
 							}
 						}
 					}
