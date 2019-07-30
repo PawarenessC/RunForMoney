@@ -77,137 +77,15 @@ class Main extends pluginBase implements Listener
 			$this->runnerc = new Config($this->getDataFolder() ."Runner.yml", Config::YAML); //逃走者になった回数
 			$this->hunterc = new Config($this->getDataFolder() ."Hunter.yml", Config::YAML); //ハンターになった回数*/
 			
-			$this->xyz = new Config(
-        $this->getDataFolder() . "xyz.yml", Config::YAML, array(
-        "MAP1"=> array(
-        "Runner"=> array(
-          "x"=>326,
-          "y"=>4,
-          "z"=>270,
-        ),
-        "Jall"=> array(
-          "x"=>305,
-          "y"=>5,
-          "z"=>331,
-        ),
-        "Watch"=> array(
-          "x"=>255,
-          "y"=>4,
-          "z"=>255,
-        ),
-        "Hunter"=> array(
-          "x"=>246,
-          "y"=>4,
-          "z"=>357,
-        ),
-        "world"=> "world"
-        ),
-        
-        "MAP2"=> array(
-        "Runner"=> array(
-          "x"=>11,
-          "y"=>4,
-          "z"=>514,
-        ),
-        "Jall"=> array(
-          "x"=>191,
-          "y"=>9,
-          "z"=>810,
-        ),
-        "Watch"=> array(
-          "x"=>11,
-          "y"=>11,
-          "z"=>11,
-        ),
-        "Hunter"=> array(
-          "x"=>666,
-          "y"=>1818,
-          "z"=>810,
-        ),
-        "world"=> "seki",
-        "Ready(ok or no)" =>"no"
-        )));
-        
-       
-        $this->config = new Config($this->getDataFolder()."Setup.yml", Config::YAML,
-			[
-			"UnitPrice" => 5,
-			
-			"RevivalBlockID" => 247,
-
-			"SelfBlockID" => 121,
-			
-			"WatchBlockID" => 19,
-			
-			"WaitTime" => 120,
-
-			"GameTime" => 420,
-			
-			"Plugin" => "EconomyAPI",
-				
-			"Reward" => 100,
-			
-			]);
-
-			
-
-		$this->mis = new Config(
-        $this->getDataFolder() . "Mission.yml", Config::YAML, array(
-        "EmeraldMission"=> array(
-          "if"=>"false",
-          "time"=>200,
-          "Reward"=>100,
-        ),
-        "Pac-ManMission"=> array(
-          "if"=>"false",
-          "time"=>100,
-          "Reward"=>100,
-        ),
-        "Increases Hunter"=> array(
-          "if"=>"false",
-          "time"=>100,
-          "LimitTime"=>30,
-        ),
-        "???"=> array(
-          "if"=>"false",
-          "time"=>100,
-          "Reward"=>100,
-        ),
-        ));
-        
-        $this->weapon = new Config(
-        $this->getDataFolder() . "Item.yml", Config::YAML, array(
-        "HunterSpeedDown"=> array(
-          "Name"=>"Down!",
-          "id"=>"422",
-          "Price"=>100,
-        ),
-        "SpeedUp"=> array(
-          "Name"=>"Up!",
-          "id"=>"405",
-          "Price"=>100,
-        ),
-        "HighJump"=> array(
-          "Name"=>"Jump!!",
-          "id"=>"377",
-          "Price"=>30,
-        ),
-        "Invisible"=> array(
-          "Name"=>"This is a Invisible",
-          "id"=>"369",
-          "Price"=>100,
-        ),
-        "Revival"=> array(
-          "Name"=>"RevivalItem",
-          "id"=>"452",
-          "Price"=>100,
-        ),
-        ));
+			/*$this->xyz = new Config($this->getDataFolder() . "xyz.yml", Config::YAML);
+        		$this->config = new Config($this->getDataFolder()."Setup.yml", Config::YAML);
+			$this->mis = new Config($this->getDataFolder() . "Mission.yml", Config::YAML);
+        		$this->weapon = new Config($this->getDataFolder() . "Item.yml", Config::YAML);*/
 			
 			$this->system = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
     		
-    		$this->saveDefaultConfig();
-        	$this->reloadConfig();
+    			$this->saveDefaultConfig();
+        		$this->reloadConfig();
         	
 			$this->h = 0; // 鬼
     		$this->t = 0; // 逃走者
@@ -448,8 +326,13 @@ class Main extends pluginBase implements Listener
  	public function Config()
  	{
  		if(!file_exists($this->getDataFolder()."data/")){
-            @mkdir($this->getDataFolder()."data/");
-        }
+           	 @mkdir($this->getDataFolder()."data/");
+        	}
+		
+		$this->xyz = new Config($this->getDataFolder() . "xyz.yml", Config::YAML);
+        	$this->config = new Config($this->getDataFolder()."Setup.yml", Config::YAML);
+		$this->mis = new Config($this->getDataFolder() . "Mission.yml", Config::YAML);
+        	$this->weapon = new Config($this->getDataFolder() . "Item.yml", Config::YAML);
         
         if(!is_file($this->getDataFolder()."data/Hunter.yml")){
                 $this->saveResource("data/Hunter.yml");
