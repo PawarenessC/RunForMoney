@@ -180,6 +180,9 @@ class Main extends pluginBase implements Listener
   			$this->join->set($name, $this->join->get($name)+1);
 			$this->join->save();
 			
+			$this->hunterc->set($name, $this->hunterc->get($name)+1);
+			$this->hunterc->save();
+			
   			$h = $this->h;
   			$this->h++;
   		}
