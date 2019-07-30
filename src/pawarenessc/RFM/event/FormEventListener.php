@@ -180,6 +180,10 @@ class FormEventListener implements Listener
 							'text' => "§l§1マップ2の座標指定", 
 							'image' => [ 'type' => 'path', 'data' => "" ]  
 							]; //1
+							$buttons[] = [ 
+							'text' => "§l§bマップ3の座標指定", 
+							'image' => [ 'type' => 'path', 'data' => "" ]  
+							]; //1
 							$owner->sendForm($player,"逃走中座標の設定","指定したい設定ボタンを押すと現在の座標が登録されます。\n",$buttons,467389);
         					$owner->info[$name] = "form";
 							break;
@@ -421,6 +425,10 @@ class FormEventListener implements Listener
 					'text' => "§l§1観戦のテレポ地点", 
 					'image' => [ 'type' => 'path', 'data' => "" ]  
 					]; //3
+					$buttons[] = [ 
+					'text' => "名前と説明の設定", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //3
 					$owner->sendForm($player,"逃走中座標の設定","マップ1の指定したい設定ボタンを押すと現在の座標が登録されます。\n",$buttons,4091);
         			$owner->info[$name] = "form";
 					break;
@@ -447,10 +455,45 @@ class FormEventListener implements Listener
 					'text' => "§l§6準備はどうですか？(*'ω'*)", 
 					'image' => [ 'type' => 'path', 'data' => "" ]  
 					]; //4
+					$buttons[] = [ 
+					'text' => "名前と説明の設定", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //5
 					$owner->sendForm($player,"逃走中座標の設定","マップ2の指定したい設定ボタンを押すと現在の座標が登録されます。\n",$buttons,4092);
-        			$owner->info[$name] = "form";
+        				$owner->info[$name] = "form";
 					break;
 				}
+				elseif($data == 2)
+				{
+					$buttons[] = [ 
+					'text' => "§l§1逃走者のテレポ地点", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //0
+					$buttons[] = [ 
+					'text' => "§l§2ハンターのテレポ地点", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //1
+					$buttons[] = [ 
+					'text' => "§l§3牢屋のテレポ地点", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //2
+					$buttons[] = [ 
+					'text' => "§l§1観戦のテレポ地点", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //3
+					$buttons[] = [ 
+					'text' => "§l§6準備はどうですか？(*'ω'*)", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //4
+					$buttons[] = [ 
+					'text' => "名前と説明の設定", 
+					'image' => [ 'type' => 'path', 'data' => "" ]  
+					]; //5
+					$owner->sendForm($player,"逃走中座標の設定","マップ3の指定したい設定ボタンを押すと現在の座標が登録されます。\n",$buttons,63);
+        				$owner->info[$name] = "form";
+					break;
+				}
+				break;
 				
 				
 				case 4091: //マップ1
@@ -517,6 +560,43 @@ class FormEventListener implements Listener
 					$owner->xyz->save();
 					break;
 				}
+				elseif($data == 4)
+				{
+					$data = [
+					"type" => "custom_form",
+					"title" => "MAP1",
+					"content" => [
+						[
+						"type" => "input",
+						"text" => "§lマップ名を入力してください(例: 城下町,吉本ランド)",
+						"placeholder" => "",
+						"default" => ""
+						],
+						[
+						"type" => "input",
+						"text" => "§lマップの説明を入れてください",
+						"placeholder" => "",
+						"default" => ""
+						]
+					]
+					];
+					$owner->createWindow($player, $data, 6597); //ね？言ったでしょ？
+					break;
+				}
+				break;
+				
+				case 6597:
+				$map_name = $result[0];
+				$map_about = $result[1];
+							
+				$player->sendMessage("§l§aMessage>>§r マップ1の名前と説明を更新しました。\nマップ名: {$map_name}\n説明: {$map_about}");
+					
+					$data = $owner->xyz->get("MAP1");
+					$data["Runner"]["Name"] = $map_name;
+					$data["Runner"]["About"] = $map_about;
+					
+					$owner->xyz->set("MAP1", $data);
+					$owner->xyz->save();
 				break;
 				
 				case 4092: //マップ2
@@ -597,6 +677,28 @@ class FormEventListener implements Listener
         			$owner->info[$name] = "form";
 					break;
 				}
+				elseif($data == 5)
+				{
+					$data = [
+					"type" => "custom_form",
+					"title" => "MAP2",
+					"content" => [
+						[
+						"type" => "input",
+						"text" => "§lマップ名を入力してください(例: 城下町,吉本ランド)",
+						"placeholder" => "",
+						"default" => ""
+						],
+						[
+						"type" => "input",
+						"text" => "§lマップの説明を入れてください",
+						"placeholder" => "",
+						"default" => ""
+						]
+					]
+					];
+					$owner->createWindow($player, $data, 6599); //ね？言ったでしょ？
+					break;
 				break;
 				
 				case 992881:
@@ -621,7 +723,163 @@ class FormEventListener implements Listener
 					break;
 				}
 				break;
+					
+				case 6599:
+				$map_name = $result[0];
+				$map_about = $result[1];
+							
+				$player->sendMessage("§l§aMessage>>§r マップ2の名前と説明を更新しました。\nマップ名: {$map_name}\n説明: {$map_about}");
+					
+					$data = $owner->xyz->get("MAP2");
+					$data["Runner"]["Name"] = $map_name;
+					$data["Runner"]["About"] = $map_about;
+					
+					$owner->xyz->set("MAP2", $data);
+					$owner->xyz->save();
+				break;
 				
+				case 63: //マップ3
+				$x = $player->x;
+				$y = $player->y;
+				$z = $player->z;
+				
+				$level = $player->getLevel();
+				$level_name = $level->getName();
+				if($data == 0) // 逃走者
+				{
+					$player->sendMessage("§l§aMessage>>§r マップ3の逃走者の座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
+					
+					$data = $owner->xyz->get("MAP3");
+					$data["Runner"]["x"] = $x;
+					$data["Runner"]["y"] = $y;
+					$data["Runner"]["z"] = $z;
+					
+					$data["world"] = $level_name;
+					
+					$owner->xyz->set("MAP3", $data);
+					$owner->xyz->save();
+					
+					$owner->xyz->set("MAP3", $data);
+					$owner->xyz->save();
+					break;
+				}	
+				elseif($data == 1) // ハンター
+				{
+					$player->sendMessage("§l§aMessage>>§r マップ3のハンターの座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
+					
+					$data = $owner->xyz->get("MAP3");
+					$data["Hunter"]["x"] = $x;
+					$data["Hunter"]["y"] = $y;
+					$data["Hunter"]["z"] = $z;
+					
+					$owner->xyz->set("MAP3", $data);
+					$owner->xyz->save();
+					break;
+				}
+				elseif($data == 2) // 牢屋
+				{
+					$player->sendMessage("§l§aMessage>>§r マップ3の牢屋の座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
+					
+					$data = $owner->xyz->get("MAP3");
+					$data["Jall"]["x"] = $x;
+					$data["Jall"]["y"] = $y;
+					$data["Jall"]["z"] = $z;
+					
+					$owner->xyz->set("MAP3", $data);
+					$owner->xyz->save();
+					break;
+				}
+				elseif($data == 3) // 観戦
+				{
+					$player->sendMessage("§l§aMessage>>§r マップ3の観戦の座標を更新しました。\nX{$x}\nY{$y}\nZ{$z}");
+					
+					$data = $owner->xyz->get("MAP3");
+					$data["Watch"]["x"] = $x;
+					$data["Watch"]["y"] = $y;
+					$data["Watch"]["z"] = $z;
+					
+					$owner->xyz->set("MAP3", $data);
+					$owner->xyz->save();
+					break;
+				}
+				elseif($data == 4) //準備
+				{
+					$buttons[] = [ 
+        				'text' => "§lできました！", 
+        				'image' => [ 'type' => 'path', 'data' => "" ] 
+        				]; //0
+        				$buttons[] = [ 
+        				'text' => "§lまだ！", 
+        				'image' => [ 'type' => 'path', 'data' => "" ] 
+        				]; //1
+        				$owner->sendForm($player,"§l準備はどうですか","マップ3の準備はできましたか？",$buttons,502);
+        				$owner->info[$name] = "form";
+					break;
+				}
+				elseif($data == 5) //名前、説明
+				{
+					$data = [
+					"type" => "custom_form",
+					"title" => "MAP3",
+					"content" => [
+						[
+						"type" => "input",
+						"text" => "§lマップ名を入力してください(例: 城下町,吉本ランド)",
+						"placeholder" => "",
+						"default" => ""
+						],
+						[
+						"type" => "input",
+						"text" => "§lマップの説明を入れてください",
+						"placeholder" => "",
+						"default" => ""
+						]
+					]
+					];
+					$owner->createWindow($player, $data, 6595); //ね？言ったでしょ？
+					break;
+				}
+				break;
+				
+				case 502:
+				if($data == 0)
+				{
+					$player->sendMessage("§l§aMessage>>§r §a設定お疲れ様です！、次回の逃走中から適用されます！");
+					$data = $owner->xyz->get("MAP3");
+					$data["Ready(ok or no)"] = "ok";
+					
+					$owner->xyz->set("MAP3", $data);
+					$owner->xyz->save();
+					break;
+				}
+				else
+				{
+					$player->sendMessage("§l§aMessage>>§r §c了解です！準備頑張ってください！");
+					$data = $owner->xyz->get("MAP3");
+					$data["Ready(ok or no)"] = "no";
+					
+					$owner->xyz->set("MAP3", $data);
+					$owner->xyz->save();
+					break;
+				}
+				break;
+					
+				case 6595:
+				$map_name = $result[0];
+				$map_about = $result[1];
+							
+				$player->sendMessage("§l§aMessage>>§r マップ3の名前と説明を更新しました。\nマップ名: {$map_name}\n説明: {$map_about}");
+					
+					$data = $owner->xyz->get("MAP3");
+					$data["Runner"]["Name"] = $map_name;
+					$data["Runner"]["About"] = $map_about;
+					
+					$owner->xyz->set("MAP3", $data);
+					$owner->xyz->save();
+				break;
+				
+				
+						
 				case 8319391:
 				
 				switch($data)
