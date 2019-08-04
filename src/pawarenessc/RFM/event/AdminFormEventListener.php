@@ -29,7 +29,7 @@ use pocketmine\network\mcpe\protocol\ModalFormResponsePacket;
 
 use pawarenessc\RFM\task\StartTask;
 
-class FormEventListener implements Listener
+class AdminFormEventListener implements Listener
 {
 	
 		public $shop = NULL;
