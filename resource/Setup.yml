@@ -1,8 +1,26 @@
+##1秒ごとの単価
 UnitPrice: "5"
+
+##復活できるブロックのID
 RevivalBlockID: 1
+
+##自首できるブロックのID
 SelfBlockID: 121
+
+##観戦できるブロックのID
 WatchBlockID: 19
-WaitTime: "11"
+
+##ゲーム開始までの待機時間(必ず11秒以上！)
+WaitTime: "120"
+
+##ゲーム時間
 GameTime: "300"
+
+##ハンターの開放時間(ゲームが始まってから何秒後の指定)
+HunterOpen: "10"
+
+##使用する経済プラグイン(EconomyAPI,MixCoinSystem,MoneySystem)
 Plugin: EconomyAPI
+
+##確保の報酬
 Reward: 100
