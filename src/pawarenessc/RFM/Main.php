@@ -29,7 +29,8 @@ use pocketmine\network\mcpe\protocol\ModalFormRequestPacket;
 use pocketmine\network\mcpe\protocol\ModalFormResponsePacket;
 
 use pawarenessc\RFM\event\PlayerEventListener;
-use pawarenessc\RFM\event\FormEventListener;
+use pawarenessc\RFM\event\AdminFormEventListener;
+use pawarenessc\RFM\event\GuestFormEventListener;
 
 use pawarenessc\RFM\task\StartTask;
 use pawarenessc\RFM\task\GameTask;
@@ -249,30 +250,6 @@ class Main extends pluginBase implements Listener
  		}
  	}
  	
- 	public function cutMoney($name, $money)
- 	{
- 		$plugin = $this->config->get("Plugin");
- 		if($plugin == "EconomyAPI")
- 		{
- 	  		$this->system->reduceMoney($name, $money);
- 		}
- 		
- 		if($plugin == "MixCoinSystem")
- 		{
- 			MixCoinSystem::getInstance()->MinusCoin($name,$money);
- 		}
- 		
- 		if($plugin == "MoneySystem")
- 		{
- 			MoneySystemAPI::getInstance()->TakeMoneyByName($name, $money);
- 		}
- 		
- 		if($plugin == "MoneyPlugin")
- 		{
- 			$this->getServer()->getPluginManager()->getPlugin("MoneyPlugin")->removemoney($name,$money);
- 		}
- 	}
- 	
  	public function getNige($name)
  	{
  		if($this->nige->exists($name))
@@ -323,8 +300,9 @@ class Main extends pluginBase implements Listener
     {
     	$this->getServer()->getPluginManager()->registerEvents($this, $this);
     	$this->getServer()->getPluginManager()->registerEvents(new PlayerEventListener($this), $this);
-    	$this->getServer()->getPluginManager()->registerEvents(new FormEventListener($this), $this);
- 	}
+    	$this->getServer()->getPluginManager()->registerEvents(new GuestFormEventListener($this), $this);
+    	$this->getServer()->getPluginManager()->registerEvents(new AdminFormEventListener($this), $this);
+    }
  	
  	public function Config()
  	{
