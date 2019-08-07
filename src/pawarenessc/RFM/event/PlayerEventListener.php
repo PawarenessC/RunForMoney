@@ -157,6 +157,7 @@ class PlayerEventListener implements Listener
 			
 			$data  = $this->owner->xyz->getAll()["MAP1"];
 			$data2 = $this->owner->xyz->getAll()["MAP2"];
+			$data3 = $this->owner->xyz->getAll()["MAP3"];
 			
 			$weapon = $this->owner->weapon->getAll();
 			
@@ -186,10 +187,15 @@ class PlayerEventListener implements Listener
 					$xyz = new Vector3($data["Runner"]["x"], $data["Runner"]["y"], $data["Runner"]["z"], $data["world"]);
         	   		$player->teleport($xyz);
 				}
-				else
+				elseif($map == 2)
 				{
 					$xyz = new Vector3($data2["Runner"]["x"], $data2["Runner"]["y"], $data2["Runner"]["z"], $data2["world"]);
-        	   		$player->teleport($xyz);
+        	   			$player->teleport($xyz);
+				}
+				elseif($map == 3)
+				{
+					$xyz = new Vector3($data3["Runner"]["x"], $data3["Runner"]["y"], $data3["Runner"]["z"], $data3["world"]);
+        	   			$player->teleport($xyz);
 				}
 			}
 			
@@ -208,20 +214,25 @@ class PlayerEventListener implements Listener
 		
 			if($block == $kb)
 			{
+				$this->owner->type[$name] = 0;
 				if($map == 1)
 				{
 					$player->sendMessage("§l§aMessage>>§r§b観戦場所へ移動します...");
 					$xyz = new Vector3($data["Watch"]["x"], $data["Watch"]["y"], $data["Watch"]["z"], $data["world"]);
-        	    	
-        	    	$this->owner->type[$name] = 0;
-        	    	$player->teleport($xyz);
-        	    }
-        	    else
-        	    {
-        	    	$player->sendMessage("§l§aMessage>>§r§b観戦場所へ移動します...");
+        	    			$player->teleport($xyz);
+        	    		}
+        	    		elseif($map == 2)
+        	    		{
+        	    			$player->sendMessage("§l§aMessage>>§r§b観戦場所へ移動します...");
 					$xyz = new Vector3($data2["Watch"]["x"], $data2["Watch"]["y"], $data2["Watch"]["z"], $data2["world"]);
-        	    	$player->teleport($xyz);
-        	    }
+        	    			$player->teleport($xyz);
+        	    		}
+        	    		elseif($map == 3)
+        	    		{
+					$player->sendMessage("§l§aMessage>>§r§b観戦場所へ移動します...");
+					$xyz = new Vector3($data3["Watch"]["x"], $data3["Watch"]["y"], $data3["Watch"]["z"], $data3["world"]);
+        	    			$player->teleport($xyz);
+				}
 			}
 		}
 	
@@ -233,6 +244,7 @@ class PlayerEventListener implements Listener
 			$cname = $item->getCustomName();
 			$data  = $this->owner->xyz->getAll()["MAP1"];
 			$data2 = $this->owner->xyz->getAll()["MAP2"];
+			$data3 = $this->owner->xyz->getAll()["MAP3"];
 			
 			$player = $event->getPlayer();
 			$name = $player->getName();
@@ -275,19 +287,23 @@ class PlayerEventListener implements Listener
 				$this->owner->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}§aが復活しました！");
 				
 				$this->owner->type[$name] = 1;
-				
+				$this->owner->t++;
 				if($map == 1)
 				{
 					$xyz = new Vector3($data["Runner"]["x"], $data["Runner"]["y"], $data["Runner"]["z"], $data["world"]);
         	   			$player->teleport($xyz);
-					$this->owner->t++;
 				}
-				else
+				elseif($map == 2)
 				{
 					$xyz = new Vector3($data2["Runner"]["x"], $data2["Runner"]["y"], $data2["Runner"]["z"], $data2["world"]);
         	   			$player->teleport($xyz);
-					$this->owner->t++;
 				}
+				elseif($map == 3)
+				{
+					$xyz = new Vector3($data3["Runner"]["x"], $data3["Runner"]["y"], $data3["Runner"]["z"], $data3["world"]);
+        	   			$player->teleport($xyz);
+				}
+				
 			}
 			
 			
@@ -297,6 +313,7 @@ class PlayerEventListener implements Listener
 		{
 			$data  = $this->owner->xyz->getAll()["MAP1"];
 			$data2 = $this->owner->xyz->getAll()["MAP2"];
+			$data3 = $this->owner->xyz->getAll()["MAP3"];
 			
 			$weapon = $this->owner->weapon->getAll();
 			
@@ -333,9 +350,14 @@ class PlayerEventListener implements Listener
 	  						$xyz = new Vector3($data["Jall"]["x"], $data["Jall"]["y"], $data["Jall"]["z"], $data["world"]);
 	  						$entity->teleport($xyz);
 	  					}
-	  					else
+	  					elseif($map == 2)
 	  					{
 	  						$xyz = new Vector3($data2["Jall"]["x"], $data2["Jall"]["y"], $data2["Jall"]["z"], $data2["world"]);
+	  						$entity->teleport($xyz);
+	  					}
+						elseif($map == 3)
+	  					{
+	  						$xyz = new Vector3($data3["Jall"]["x"], $data3["Jall"]["y"], $data3["Jall"]["z"], $data3["world"]);
 	  						$entity->teleport($xyz);
 	  					}
 	  					
@@ -381,9 +403,14 @@ class PlayerEventListener implements Listener
 	  								$xyz = new Vector3($data["Hunter"]["x"], $data["Hunter"]["y"], $data["Hunter"]["z"], $data["world"]);
 	  								$online->teleport($xyz);
 	  							}
-	  							else
+	  							elseif($map == 2)
 	  							{
 	  								$xyz = new Vector3($data2["Hunter"]["x"], $data2["Hunter"]["y"], $data2["Hunter"]["z"], $data2["world"]);
+	  								$online->teleport($xyz);
+	  							}
+								elseif($map == 3)
+	  							{
+	  								$xyz = new Vector3($data3["Hunter"]["x"], $data3["Hunter"]["y"], $data3["Hunter"]["z"], $data3["world"]);
 	  								$online->teleport($xyz);
 	  							}
 	  						}
@@ -415,9 +442,14 @@ class PlayerEventListener implements Listener
 	  					$xyz = new Vector3($data["Jall"]["x"], $data["Jall"]["y"], $data["Jall"]["z"], $data["world"]);
 	  					$entity->teleport($xyz);
 	  				}
-	  				else
+	  				elseif($map == 2)
 	  				{
 	  					$xyz = new Vector3($data2["Jall"]["x"], $data2["Jall"]["y"], $data2["Jall"]["z"], $data2["world"]);
+	  					$entity->teleport($xyz);
+	  				}
+					elseif($map == 3)
+	  				{
+	  					$xyz = new Vector3($data3["Jall"]["x"], $data3["Jall"]["y"], $data3["Jall"]["z"], $data3["world"]);
 	  					$entity->teleport($xyz);
 	  				}
 	  				
