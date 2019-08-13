@@ -450,6 +450,9 @@ class Main extends pluginBase implements Listener
  		if(!file_exists($this->getDataFolder()."data/")){
             @mkdir($this->getDataFolder()."data/");
         }
+		
+		$this->saveDefaultConfig();
+		$this->reloadConfig();
         
         if(!is_file($this->getDataFolder()."data/Hunter.yml")){
                 $this->saveResource("data/Hunter.yml");
