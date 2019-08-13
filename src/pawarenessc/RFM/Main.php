@@ -180,6 +180,7 @@ class Main extends pluginBase implements Listener
         "HunterSpeedDown"=> array(
           "Name"=>"Down!",
           "id"=>"422",
+	  "Stoptime"=>10,
           "Price"=>100,
         ),
         "SpeedUp"=> array(
