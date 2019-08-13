@@ -303,7 +303,7 @@ class PlayerEventListener implements Listener
 			$player = $event->getPlayer();
 			$cmd = $event->getMessage();
 			
-			if($cmd !== "setupui" && $cmd !== "tagui" && $cmd !== "tagshop"){
+			if($cmd !== "/setupui" && $cmd !== "/tagui" && $cmd !== "/tagshop"){
 				$event->setCancelled();
 				$player->sendMessage("§l§aMessage>>§r §cゲーム中は逃走中コマンド以外を使用できません");
 			}
