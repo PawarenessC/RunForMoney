@@ -409,7 +409,7 @@ class PlayerEventListener implements Listener
 	  			////////////////////////アイテム///////////////////////
 	  			if( $this->owner->type[$hunter] == 2 && $this->owner->type[$runner] == 1 && $this->owner->game == true && $weapon["HunterSpeedDown"]["id"] == $id && $cname == $weapon["HunterSpeedDown"]["Name"] )
 	  			{
-	  				$go = $weapon["HunterSpeedDown"]["stoptime"];
+	  				$go = $weapon["HunterSpeedDown"]["Stoptime"];
 					$player->sendMessage("§l§aMessage>>§r §aハンターのスピードがダウンしたぞ！");
 	  				$entity->sendMessage("§l§aMessage>>§r §cスピードがダウンしてしまった！");
 					$entity->sendMessage("§l§aMessage>>§r §c§l{$go}§r§c秒経つまで動けないぞ！");
