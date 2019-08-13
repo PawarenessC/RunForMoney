@@ -1,6 +1,7 @@
 HunterSpeedDown:
   Name: Down!
   id: "422"
+  Stoptime: 10
   Price: 100
 SpeedUp:
   Name: Up!
