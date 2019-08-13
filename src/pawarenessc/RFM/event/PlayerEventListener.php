@@ -8,6 +8,7 @@ use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\event\player\PlayerCommandPreprocessEvent;
 
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -23,7 +24,8 @@ use pocketmine\entity\EffectInstance;
 
 use pocketmine\level\Level;
 use pocketmine\level\Position;
-use pocketmine\level\particle\DustParticle;
+//use pocketmine\level\particle\DustParticle;
+use pocketmine\level\particle\HeartParticle;
 use pocketmine\level\particle\DestroyBlockParticle;
 
 use pocketmine\block\Block;
@@ -123,7 +125,8 @@ class PlayerEventListener implements Listener
   				$level = $player->getLevel();
 				$pos = new Vector3($player->getX(),$player->getY()+1,$player->getZ());
 				
-				$pt = new DustParticle($pos, mt_rand(), mt_rand(), mt_rand(), mt_rand());
+				//$pt = new DustParticle($pos, mt_rand(), mt_rand(), mt_rand(), mt_rand());
+				$pt = new HeartParticle($pos);
 				$count = 5;
 				
 				for($i = 0;$i < $count; ++$i)
@@ -293,6 +296,17 @@ class PlayerEventListener implements Listener
 			
 		}
 	
+		public function oncmd(PlayerCommandPreprocessEvent $event)
+		{
+			$player = $event->getPlayer();
+			$cmd = $event->getMessage();
+			
+			if($cmd !== "setupui" && $cmd !== "tagui" && $cmd !== "tagshop"){
+				$event->setCancelled();
+				$player->sendMessage("§l§aMessage>>§r §cゲーム中は逃走中コマンド以外を使用できません");
+			}
+		}
+		
 		public function EntityDamageEvent(EntityDamageEvent $event)
 		{
 			$data  = $this->owner->xyz->getAll()["MAP1"];
@@ -393,9 +407,14 @@ class PlayerEventListener implements Listener
 	  			////////////////////////アイテム///////////////////////
 	  			if( $this->owner->type[$hunter] == 2 && $this->owner->type[$runner] == 1 && $this->owner->game == true && $weapon["HunterSpeedDown"]["id"] == $id && $cname == $weapon["HunterSpeedDown"]["Name"] )
 	  			{
-	  				$player->sendMessage("§l§aMessage>>§r §aハンターのスピードがダウンしたぞ！");
+	  				$go = $weapon["HunterSpeedDown"]["stoptime"];
+					$player->sendMessage("§l§aMessage>>§r §aハンターのスピードがダウンしたぞ！");
 	  				$entity->sendMessage("§l§aMessage>>§r §cスピードがダウンしてしまった！");
+					$entity->sendMessage("§l§aMessage>>§r §c§l{$go}§r§c秒経つまで動けないぞ！");
 	  				$entity->removeEffect(1);
+					$entity->setImmobile(true);
+					//$this->getScheduler()->scheduleRepeatingTask(new GameTask($this, $this), 20);
+					$this->getScheduler()->scheduleDelayedTask(new MiniTask($this, $entity),$go);
 	  				$ev->getEntity()->getLevel()->addParticle(new DestroyBlockParticle($event->getEntity(), Block::get(7)));
 	  			}
 	  			
