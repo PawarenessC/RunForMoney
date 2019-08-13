@@ -1106,8 +1106,10 @@ class FormEventListener implements Listener
   									$owner->cogame = true;
 									$owner->getServer()->broadcastMessage("§l§bINFO>>§r §b逃走中を開催します！ /taguiで参加しましょう！");
 									
+									if(mt_rand(1,2) == 1){ $owner->team($player, "hunter");}else{
 									$team = "runner";
 									$owner->team($player, $team);
+									}
       								
       								$owner->getServer()->broadcastMessage("§l§bINFO>>§r §e{$name}さんが逃走中に参加しました");
 								}
