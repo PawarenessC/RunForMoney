@@ -37,7 +37,7 @@ use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\network\mcpe\protocol\ModalFormRequestPacket;
 use pocketmine\network\mcpe\protocol\ModalFormResponsePacket;
 
-use pawarenessc\RF
+use pawarenessc\RFM\task\MiniTask;
 
 class PlayerEventListener implements Listener
 {
