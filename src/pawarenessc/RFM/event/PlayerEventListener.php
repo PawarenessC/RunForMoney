@@ -455,7 +455,8 @@ class PlayerEventListener implements Listener
 			$cmd = $event->getMessage();
 			
 			var_dump($cmd);
-			if($cmd !== "/tagshop" or $cmd !== "/tagui"){
+			//if($cmd !== "/tagshop" or $cmd !== "/tagui"){
+			if($cmd !== "tagshop" or $cmd !== "tagui"){
 				//if(!$player->isOp()){
 						$event->setCancelled();
 						$player->sendMessage("§l§aMessage>>§r §cゲーム中は逃走中コマンド以外を使用できません");
