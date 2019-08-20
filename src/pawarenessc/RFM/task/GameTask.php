@@ -137,13 +137,15 @@ class GameTask extends Task
 						if($map == 1)
 						{
 						
-							$xyz = new Vector3($data["MAP1"]["Runner"]["x"], $data["MAP1"]["Runner"]["y"], $data["MAP1"]["Runner"]["z"], $data["MAP1"]["world"]);
+							$level = Server::getInstance()->getLevelByName($data["MAP1"]["world"]);
+							$xyz = new Vector3($data["MAP1"]["Runner"]["x"], $data["MAP1"]["Runner"]["y"], $data["MAP1"]["Runner"]["z"], $level);
 							$player->teleport($xyz);
 							$player->sendMessage("§l§aMessage>> §r§b逃走者になりました!");
 						}
 						else
 						{
-							$xyz = new Vector3($data["MAP2"]["Runner"]["x"], $data["MAP2"]["Runner"]["y"], $data["MAP2"]["Runner"]["z"], $data["MAP2"]["world"]);
+							$level = Server::getInstance()->getLevelByName($data["MAP2"]["world"]);
+							$xyz = new Vector3($data["MAP2"]["Runner"]["x"], $data["MAP2"]["Runner"]["y"], $data["MAP2"]["Runner"]["z"], $level);
 							$player->teleport($xyz);
 							$player->sendMessage("§l§aMessage>> §r§b逃走者になりました!");
 						}
@@ -153,7 +155,8 @@ class GameTask extends Task
 	     			{
 	      				if($map == 1)
 	      				{
-	      					$xyz = new Vector3($data["MAP1"]["Hunter"]["x"], $data["MAP1"]["Hunter"]["y"], $data["MAP1"]["Hunter"]["z"], $data["MAP1"]["world"]);
+	      					$level = Server::getInstance()->getLevelByName($data["MAP1"]["world"]);
+						$xyz = new Vector3($data["MAP1"]["Hunter"]["x"], $data["MAP1"]["Hunter"]["y"], $data["MAP1"]["Hunter"]["z"], $level);
 	      					$player->teleport($xyz);
 							$player->setImmobile(true);
 							$player->addEffect(new EffectInstance(Effect::getEffect(1), 114514, 1, false));
@@ -161,7 +164,7 @@ class GameTask extends Task
 						}
 						else
 						{
-							$xyz = new Vector3($data["MAP2"]["Hunter"]["x"], $data["MAP2"]["Hunter"]["y"], $data["MAP2"]["Hunter"]["z"], $data["MAP2"]["world"]);
+							$xyz = new Vector3($data["MAP2"]["Hunter"]["x"], $data["MAP2"]["Hunter"]["y"], $data["MAP2"]["Hunter"]["z"], $level);
 	      					$player->teleport($xyz);
 							$player->setImmobile(true);
 							$player->addEffect(new EffectInstance(Effect::getEffect(1), 114514, 1, false));
