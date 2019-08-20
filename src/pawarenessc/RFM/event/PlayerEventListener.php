@@ -454,6 +454,7 @@ class PlayerEventListener implements Listener
 			$player = $event->getPlayer();
 			$cmd = $event->getMessage();
 			
+			var_dump($cmd);
 			if($cmd !== "/tagshop" or $cmd !== "/tagui"){
 				//if(!$player->isOp()){
 						$event->setCancelled();
