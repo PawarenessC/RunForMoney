@@ -184,12 +184,14 @@ class PlayerEventListener implements Listener
 				
 				if($map == 1)
 				{
-					$xyz = new Vector3($data["Runner"]["x"], $data["Runner"]["y"], $data["Runner"]["z"], $data["world"]);
+					$level = Server::getInstance()->getLevelByName($data["world"]);
+					$xyz = new Vector3($data["Runner"]["x"], $data["Runner"]["y"], $data["Runner"]["z"], $level);
         	   		$player->teleport($xyz);
 				}
 				else
 				{
-					$xyz = new Vector3($data2["Runner"]["x"], $data2["Runner"]["y"], $data2["Runner"]["z"], $data2["world"]);
+					$level = Server::getInstance()->getLevelByName($data2["world"]);
+					$xyz = new Vector3($data2["Runner"]["x"], $data2["Runner"]["y"], $data2["Runner"]["z"], $level);
         	   		$player->teleport($xyz);
 				}
 			}
@@ -212,7 +214,8 @@ class PlayerEventListener implements Listener
 				if($map == 1)
 				{
 					$player->sendMessage("§l§aMessage>>§r§b観戦場所へ移動します...");
-					$xyz = new Vector3($data["Watch"]["x"], $data["Watch"]["y"], $data["Watch"]["z"], $data["world"]);
+					$level = Server::getInstance()->getLevelByName($data["world"]);
+					$xyz = new Vector3($data["Watch"]["x"], $data["Watch"]["y"], $data["Watch"]["z"], $level);
         	    	
         	    	$this->owner->type[$name] = 0;
         	    	$player->teleport($xyz);
@@ -220,7 +223,8 @@ class PlayerEventListener implements Listener
         	    else
         	    {
         	    	$player->sendMessage("§l§aMessage>>§r§b観戦場所へ移動します...");
-					$xyz = new Vector3($data2["Watch"]["x"], $data2["Watch"]["y"], $data2["Watch"]["z"], $data2["world"]);
+			    $level = Server::getInstance()->getLevelByName($data["MAP1"]["world"]);
+					$xyz = new Vector3($data2["Watch"]["x"], $data2["Watch"]["y"], $data2["Watch"]["z"], $level);
         	    	$player->teleport($xyz);
         	    }
 			}
@@ -279,13 +283,15 @@ class PlayerEventListener implements Listener
 				
 				if($map == 1)
 				{
-					$xyz = new Vector3($data["Runner"]["x"], $data["Runner"]["y"], $data["Runner"]["z"], $data["world"]);
+					$level = Server::getInstance()->getLevelByName($data["world"]);
+					$xyz = new Vector3($data["Runner"]["x"], $data["Runner"]["y"], $data["Runner"]["z"], $level);
         	   			$player->teleport($xyz);
 					$this->owner->t++;
 				}
 				else
 				{
-					$xyz = new Vector3($data2["Runner"]["x"], $data2["Runner"]["y"], $data2["Runner"]["z"], $data2["world"]);
+					$level = Server::getInstance()->getLevelByName($data2["world"]);
+					$xyz = new Vector3($data2["Runner"]["x"], $data2["Runner"]["y"], $data2["Runner"]["z"], $level);
         	   			$player->teleport($xyz);
 					$this->owner->t++;
 				}
@@ -331,12 +337,14 @@ class PlayerEventListener implements Listener
 	  					
 	  					if($map == 1)
 	  					{
-	  						$xyz = new Vector3($data["Jall"]["x"], $data["Jall"]["y"], $data["Jall"]["z"], $data["world"]);
+	  						$level = Server::getInstance()->getLevelByName($data["world"]);
+							$xyz = new Vector3($data["Jall"]["x"], $data["Jall"]["y"], $data["Jall"]["z"], $level);
 	  						$entity->teleport($xyz);
 	  					}
 	  					else
 	  					{
-	  						$xyz = new Vector3($data2["Jall"]["x"], $data2["Jall"]["y"], $data2["Jall"]["z"], $data2["world"]);
+	  						$level = Server::getInstance()->getLevelByName($data2["world"]);
+							$xyz = new Vector3($data2["Jall"]["x"], $data2["Jall"]["y"], $data2["Jall"]["z"], $level);
 	  						$entity->teleport($xyz);
 	  					}
 	  					
@@ -379,12 +387,14 @@ class PlayerEventListener implements Listener
 	  							$this->owner->h++;
 	  							if($map == 1)
 	  							{
-	  								$xyz = new Vector3($data["Hunter"]["x"], $data["Hunter"]["y"], $data["Hunter"]["z"], $data["world"]);
+	  								$level = Server::getInstance()->getLevelByName($data["world"]);
+									$xyz = new Vector3($data["Hunter"]["x"], $data["Hunter"]["y"], $data["Hunter"]["z"], $level);
 	  								$online->teleport($xyz);
 	  							}
 	  							else
 	  							{
-	  								$xyz = new Vector3($data2["Hunter"]["x"], $data2["Hunter"]["y"], $data2["Hunter"]["z"], $data2["world"]);
+	  								$level = Server::getInstance()->getLevelByName($data2["world"]);
+									$xyz = new Vector3($data2["Hunter"]["x"], $data2["Hunter"]["y"], $data2["Hunter"]["z"], $level);
 	  								$online->teleport($xyz);
 	  							}
 	  						}
@@ -413,12 +423,14 @@ class PlayerEventListener implements Listener
 	  				
 	  				if($map == 1)
 	  				{
-	  					$xyz = new Vector3($data["Jall"]["x"], $data["Jall"]["y"], $data["Jall"]["z"], $data["world"]);
+	  					$level = Server::getInstance()->getLevelByName($data["world"]);
+						$xyz = new Vector3($data["Jall"]["x"], $data["Jall"]["y"], $data["Jall"]["z"], $levek);
 	  					$entity->teleport($xyz);
 	  				}
 	  				else
 	  				{
-	  					$xyz = new Vector3($data2["Jall"]["x"], $data2["Jall"]["y"], $data2["Jall"]["z"], $data2["world"]);
+	  					$level = Server::getInstance()->getLevelByName($data2["world"]);
+						$xyz = new Vector3($data2["Jall"]["x"], $data2["Jall"]["y"], $data2["Jall"]["z"], $level);
 	  					$entity->teleport($xyz);
 	  				}
 	  				
