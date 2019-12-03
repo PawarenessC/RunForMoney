@@ -8,6 +8,7 @@ use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\event\player\PlayerCommandPreprocessEvent;
 
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -23,7 +24,7 @@ use pocketmine\entity\EffectInstance;
 
 use pocketmine\level\Level;
 use pocketmine\level\Position;
-use pocketmine\level\particle\DustParticle;
+use pocketmine\level\particle\HeartParticle;
 use pocketmine\level\particle\DestroyBlockParticle;
 
 use pocketmine\block\Block;
@@ -123,7 +124,7 @@ class PlayerEventListener implements Listener
   				$level = $player->getLevel();
 				$pos = new Vector3($player->getX(),$player->getY()+1,$player->getZ());
 				
-				$pt = new DustParticle($pos, mt_rand(), mt_rand(), mt_rand(), mt_rand());
+				$pt = new HeartParticle($pos);
 				$count = 5;
 				
 				for($i = 0;$i < $count; ++$i)
@@ -183,12 +184,14 @@ class PlayerEventListener implements Listener
 				
 				if($map == 1)
 				{
-					$xyz = new Vector3($data["Runner"]["x"], $data["Runner"]["y"], $data["Runner"]["z"], $data["world"]);
+					$level = Server::getInstance()->getLevelByName($data["world"]);
+					$xyz = new Vector3($data["Runner"]["x"], $data["Runner"]["y"], $data["Runner"]["z"], $level);
         	   		$player->teleport($xyz);
 				}
 				else
 				{
-					$xyz = new Vector3($data2["Runner"]["x"], $data2["Runner"]["y"], $data2["Runner"]["z"], $data2["world"]);
+					$level = Server::getInstance()->getLevelByName($data2["world"]);
+					$xyz = new Vector3($data2["Runner"]["x"], $data2["Runner"]["y"], $data2["Runner"]["z"], $level);
         	   		$player->teleport($xyz);
 				}
 			}
@@ -211,7 +214,8 @@ class PlayerEventListener implements Listener
 				if($map == 1)
 				{
 					$player->sendMessage("§l§aMessage>>§r§b観戦場所へ移動します...");
-					$xyz = new Vector3($data["Watch"]["x"], $data["Watch"]["y"], $data["Watch"]["z"], $data["world"]);
+					$level = Server::getInstance()->getLevelByName($data["world"]);
+					$xyz = new Vector3($data["Watch"]["x"], $data["Watch"]["y"], $data["Watch"]["z"], $level);
         	    	
         	    	$this->owner->type[$name] = 0;
         	    	$player->teleport($xyz);
@@ -219,7 +223,8 @@ class PlayerEventListener implements Listener
         	    else
         	    {
         	    	$player->sendMessage("§l§aMessage>>§r§b観戦場所へ移動します...");
-					$xyz = new Vector3($data2["Watch"]["x"], $data2["Watch"]["y"], $data2["Watch"]["z"], $data2["world"]);
+			    $level = Server::getInstance()->getLevelByName($data["MAP1"]["world"]);
+					$xyz = new Vector3($data2["Watch"]["x"], $data2["Watch"]["y"], $data2["Watch"]["z"], $level);
         	    	$player->teleport($xyz);
         	    }
 			}
@@ -278,13 +283,15 @@ class PlayerEventListener implements Listener
 				
 				if($map == 1)
 				{
-					$xyz = new Vector3($data["Runner"]["x"], $data["Runner"]["y"], $data["Runner"]["z"], $data["world"]);
+					$level = Server::getInstance()->getLevelByName($data["world"]);
+					$xyz = new Vector3($data["Runner"]["x"], $data["Runner"]["y"], $data["Runner"]["z"], $level);
         	   			$player->teleport($xyz);
 					$this->owner->t++;
 				}
 				else
 				{
-					$xyz = new Vector3($data2["Runner"]["x"], $data2["Runner"]["y"], $data2["Runner"]["z"], $data2["world"]);
+					$level = Server::getInstance()->getLevelByName($data2["world"]);
+					$xyz = new Vector3($data2["Runner"]["x"], $data2["Runner"]["y"], $data2["Runner"]["z"], $level);
         	   			$player->teleport($xyz);
 					$this->owner->t++;
 				}
@@ -330,12 +337,14 @@ class PlayerEventListener implements Listener
 	  					
 	  					if($map == 1)
 	  					{
-	  						$xyz = new Vector3($data["Jall"]["x"], $data["Jall"]["y"], $data["Jall"]["z"], $data["world"]);
+	  						$level = Server::getInstance()->getLevelByName($data["world"]);
+							$xyz = new Vector3($data["Jall"]["x"], $data["Jall"]["y"], $data["Jall"]["z"], $level);
 	  						$entity->teleport($xyz);
 	  					}
 	  					else
 	  					{
-	  						$xyz = new Vector3($data2["Jall"]["x"], $data2["Jall"]["y"], $data2["Jall"]["z"], $data2["world"]);
+	  						$level = Server::getInstance()->getLevelByName($data2["world"]);
+							$xyz = new Vector3($data2["Jall"]["x"], $data2["Jall"]["y"], $data2["Jall"]["z"], $level);
 	  						$entity->teleport($xyz);
 	  					}
 	  					
@@ -378,12 +387,14 @@ class PlayerEventListener implements Listener
 	  							$this->owner->h++;
 	  							if($map == 1)
 	  							{
-	  								$xyz = new Vector3($data["Hunter"]["x"], $data["Hunter"]["y"], $data["Hunter"]["z"], $data["world"]);
+	  								$level = Server::getInstance()->getLevelByName($data["world"]);
+									$xyz = new Vector3($data["Hunter"]["x"], $data["Hunter"]["y"], $data["Hunter"]["z"], $level);
 	  								$online->teleport($xyz);
 	  							}
 	  							else
 	  							{
-	  								$xyz = new Vector3($data2["Hunter"]["x"], $data2["Hunter"]["y"], $data2["Hunter"]["z"], $data2["world"]);
+	  								$level = Server::getInstance()->getLevelByName($data2["world"]);
+									$xyz = new Vector3($data2["Hunter"]["x"], $data2["Hunter"]["y"], $data2["Hunter"]["z"], $level);
 	  								$online->teleport($xyz);
 	  							}
 	  						}
@@ -412,12 +423,14 @@ class PlayerEventListener implements Listener
 	  				
 	  				if($map == 1)
 	  				{
-	  					$xyz = new Vector3($data["Jall"]["x"], $data["Jall"]["y"], $data["Jall"]["z"], $data["world"]);
+	  					$level = Server::getInstance()->getLevelByName($data["world"]);
+						$xyz = new Vector3($data["Jall"]["x"], $data["Jall"]["y"], $data["Jall"]["z"], $levek);
 	  					$entity->teleport($xyz);
 	  				}
 	  				else
 	  				{
-	  					$xyz = new Vector3($data2["Jall"]["x"], $data2["Jall"]["y"], $data2["Jall"]["z"], $data2["world"]);
+	  					$level = Server::getInstance()->getLevelByName($data2["world"]);
+						$xyz = new Vector3($data2["Jall"]["x"], $data2["Jall"]["y"], $data2["Jall"]["z"], $level);
 	  					$entity->teleport($xyz);
 	  				}
 	  				
@@ -434,6 +447,20 @@ class PlayerEventListener implements Listener
 	  				$this->owner->getServer()->broadcastMessage("§l§bINFO>>§r §e{$runner}が§6パックマンミッションで確保された！");
 	  				$this->owner->getServer()->broadcastMessage("§l§bINFO>>§r §c確保した逃走者→ §f{$hunter}");
 	  			}
+			}
+		}
+	
+		public function oncmd(PlayerCommandPreprocessEvent $event){
+			$player = $event->getPlayer();
+			$cmd = $event->getMessage();
+			
+			var_dump($cmd);
+			//if($cmd !== "/tagshop" or $cmd !== "/tagui"){
+			if($cmd !== "tagshop" or $cmd !== "tagui"){
+				//if(!$player->isOp()){
+						$event->setCancelled();
+						$player->sendMessage("§l§aMessage>>§r §cゲーム中は逃走中コマンド以外を使用できません");
+				//}
 			}
 		}
   

@@ -75,7 +75,6 @@ class FormEventListener implements Listener
   			 			{
   			 				if($owner->game == false && $owner->cogame == false)
   			 				{
-  			 					$owner->getScheduler()->scheduleRepeatingTask(new StartTask($owner, $owner), 20);
   			 					$owner->game = false;
   			 					$owner->cogame = true;
        							$owner->getServer()->broadcastMessage("§l§bINFO>>§r §b逃走中を開催します！ /taguiで参加しましょう！");
